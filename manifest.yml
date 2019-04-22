@@ -7,5 +7,7 @@ applications:
    ROSTER_A: Value_1
   instances: 1
   memory: 750M
+  buildpacks:
+   - java_buildpack
   services: 
-     - dbService
+   - dbService
