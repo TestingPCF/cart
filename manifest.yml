@@ -3,7 +3,9 @@ applications:
 - name: cart
   path: target/cart-0.0.1-SNAPSHOT.jar
   random-route: true
-env: 
-  ROSTER_A: Value_1
-instances: 1
-memory: 750M
+  env: 
+   ROSTER_A: Value_1
+  instances: 1
+  services:
+   - dbService
+  memory: 750M
