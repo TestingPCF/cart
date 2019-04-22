@@ -6,6 +6,6 @@ applications:
   env: 
    ROSTER_A: Value_1
   instances: 1
-  services:
-   - dbService
   memory: 750M
+  services: 
+     - dbService
