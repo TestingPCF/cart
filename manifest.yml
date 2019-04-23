@@ -7,3 +7,5 @@ applications:
   memory: 750M
   services:
   - dbService
+  buildpacks:
+  - java_buildpack_offline
