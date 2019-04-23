@@ -3,6 +3,8 @@
  */
 package com.hcl.cloud.cart.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 
 /**

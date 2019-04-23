@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcl.cloud.cart.domain.Cart;
+import com.hcl.cloud.cart.domain.ShoppingCart;
 
 public class EntityTransformerUtility {
 
@@ -14,7 +15,7 @@ public class EntityTransformerUtility {
 	
 	/**
 	 * Convert Java object to Json.
-	 * @param traitSet
+	 * @param object
 	 * @return String
 	 */
 	public static String convertJavaToJsonString(final Object object) {
@@ -40,12 +41,12 @@ public class EntityTransformerUtility {
 	 * @param jsonString
 	 * @return Cart
 	 */
-	public static Cart convertJsonToJavaObject(final String jsonString) {
+	public static ShoppingCart convertJsonToJavaObject(final String jsonString) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		Cart cart = null;
+		ShoppingCart ShoppingCart = null;
 		try {
-			cart = objectMapper.readValue(jsonString, Cart.class);
+			ShoppingCart = objectMapper.readValue(jsonString, ShoppingCart.class);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			//LOG.error(e.getMessage());
@@ -56,6 +57,6 @@ public class EntityTransformerUtility {
 			e.printStackTrace();
 			//LOG.error(e.getMessage());
 		}
-		return cart;
+		return ShoppingCart;
 	}
 }

@@ -3,12 +3,11 @@
  */
 package com.hcl.cloud.cart.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Entity class for ShoppingCart. This class includes getter and setter methods
@@ -17,13 +16,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author baghelp
  *
  */
-@Document(collection = "cart")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShoppingCart {
 
 	/**
 	 * cartId.
 	 */
-	@Id
+	//@Id
 	private String cartId;
 
 	/**
