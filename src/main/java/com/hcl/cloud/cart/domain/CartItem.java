@@ -3,35 +3,21 @@
  */
 package com.hcl.cloud.cart.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 
 /**
  * @author baghelp
  */
-@Entity
-@Table(name = "item")
 public class CartItem {
 
     /**
      * itemCode.
      */
-
-    @Id
-    @Column(name="skuCode")
     private String itemCode;
-
-    @Column(name="quantity")
     private int quantity;
-
-    @Column(name="salePrice")
     private BigDecimal salePrice = new BigDecimal(10.00);
-
-    @Column(name="listPrice")
-    private BigDecimal listPrice = new BigDecimal(12.00);
+    
+    private BigDecimal listrice = new BigDecimal(12.00);
 
     public String getItemCode() {
         return itemCode;
@@ -57,12 +43,12 @@ public class CartItem {
 		this.salePrice = salePrice;
 	}
 
-	public BigDecimal getListPrice() {
-		return listPrice;
+	public BigDecimal getListrice() {
+		return listrice;
 	}
 
-	public void setListPrice(BigDecimal listPrice) {
-		this.listPrice = listPrice;
+	public void setListrice(BigDecimal listrice) {
+		this.listrice = listrice;
 	}
 
     /*@Override

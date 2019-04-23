@@ -6,9 +6,9 @@ package com.hcl.cloud.cart.domain;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Entity class for ShoppingCart. This class includes getter and setter methods
@@ -17,31 +17,27 @@ import javax.persistence.*;
  * @author baghelp
  *
  */
-@Entity
-@Table(name="cart")
+@Document(collection = "cart")
 public class ShoppingCart {
 
 	/**
 	 * cartId.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String cartId;
 
 	/**
 	 * subTotal.
 	 */
-	@Column(name = "total")
 	private BigDecimal subTotal = new BigDecimal(0.00);
 
 	/**
 	 * userId.
 	 */
-	@Column(name = "userId")
 	private String userId;
 
 	/**
-	 * cartItems.
+	 * userId.
 	 */
 	private List<CartItem> cartItems = new ArrayList<>();
 
