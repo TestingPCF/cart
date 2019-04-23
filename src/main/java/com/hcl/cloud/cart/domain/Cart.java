@@ -1,19 +1,18 @@
 package com.hcl.cloud.cart.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "CART")
-public class Cart {
+public class Cart implements Serializable {
+
+	private static final long serialVersionUID = 4L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cart_sequence")
+	@SequenceGenerator(name = "order_sequence", sequenceName = "ORDER_SEQ")
+	@Column(name = "cart_id", unique = true, nullable = false)
 	private long id;
 
 	@Column(name = "USER_ID")
