@@ -9,5 +9,4 @@ applications:
     services:
       - dbService
       - log-drain
-	  - app-monitoring
-      
+      - app-monitoring
