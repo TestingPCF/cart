@@ -1,7 +1,15 @@
 package com.hcl.cloud.cart.domain;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Cart entity class to be persisted in the database.
@@ -36,7 +44,8 @@ public class Cart implements Serializable {
      * cart_object field of the database table "cart".
      * It's a string type value that stores the string in json format in the database.
      */
-    @Column(name = "CART_OBJECT",columnDefinition = "NVARCHAR(MAX)")
+    @Lob
+    @Column(name = "CART_OBJECT")
     private String cartJson;
 
     /**
