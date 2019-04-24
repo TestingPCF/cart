@@ -52,17 +52,4 @@ public class CartItem {
 	public void setListrice(BigDecimal listrice) {
 		this.listrice = listrice;
 	}
-
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CartItem cartItem = (CartItem) o;
-        return itemCode.equals(cartItem.itemCode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(itemCode);
-    }*/
 }
