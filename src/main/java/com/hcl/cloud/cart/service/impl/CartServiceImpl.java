@@ -92,9 +92,9 @@ public class CartServiceImpl implements CartService {
 				LOG.info("Item could not be saved into the database.");
 				return false;
 			}
-		} catch (Exception ex) {
+		} catch (RuntimeException ex) {
 			LOG.error("Item cannot be added into the cart. ", ex.getMessage());
-			throw new Exception(ex.getMessage());
+			throw new RuntimeException(ex.getMessage());
 
 		}
 

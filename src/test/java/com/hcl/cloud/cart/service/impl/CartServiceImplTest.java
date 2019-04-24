@@ -50,11 +50,6 @@ public class CartServiceImplTest {
 	 * quantity.
 	 */
 	private final static int quantity = 2;
-	
-	/**
-	 * NEGATIVE_QUANTITY.
-	 */
-	private final static int NEGATIVE_QUANTITY = 2;
 
 	/**
 	 * LIST_PRICE.
@@ -94,6 +89,9 @@ public class CartServiceImplTest {
 	 * Success Test for getCartById Method.
 	 **/
 
+	/**
+	 * Success test method for GetCartById. 
+	 */
 	@Test
 	public final void testGetCartByIdSuccess() {
 		PowerMockito.mockStatic(EntityTransformerUtility.class);
@@ -107,7 +105,6 @@ public class CartServiceImplTest {
 	/**
 	 * Success Test for testGetCartByIdWhenCartIsNull Method.
 	 **/
-
 	@Test
 	public final void testGetCartByIdWhenCartIsNull() {
 		Mockito.when(cartRepository.findByUserId(userId)).thenReturn(null);
@@ -116,10 +113,8 @@ public class CartServiceImplTest {
 
 	/**
 	 * Success Test for testaddItemInCartSuccess Method.
-	 * 
 	 * @throws Exception
 	 **/
-
 	@Test
 	public final void testaddItemInCartSuccess() throws Exception {
 		CartDto cartDto = Mockito.mock(CartDto.class);
@@ -138,9 +133,15 @@ public class CartServiceImplTest {
 		Mockito.when(cartItem.getQuantity()).thenReturn(quantity);
 		cartItems.add(cartItem);
 		Mockito.when(shoppingCart.getCartItems()).thenReturn(cartItems);
+		Cart persistCart = Mockito.mock(Cart.class);
+		Mockito.when(cartRepository.save(cart)).thenReturn(persistCart);
 		cartServiceImpl.addItemInCart(authToken, cartDto);
 	}
 
+	/**
+	 * This method test for Validate when SKU is null in request.
+	 * @throws Exception
+	 */
 	@Test(expected = Exception.class)
 	public void testValidateWhenSkuIsNull() throws Exception {
 		CartDto cartDto = Mockito.mock(CartDto.class);
@@ -149,12 +150,35 @@ public class CartServiceImplTest {
 		Whitebox.invokeMethod(cartServiceImpl, "validate", cartDto);
 	}
 	
-	/*@Test(expected = Exception.class)
-	public void testValidateWhenQuantityIsNegative() throws Exception {
+	@Test
+	public final void testaddItemInCartSuccessWhenCartIsNull() throws Exception {
 		CartDto cartDto = Mockito.mock(CartDto.class);
 		Mockito.when(cartDto.getSkuCode()).thenReturn(SKU_CODE);
-		Mockito.when(cartDto.getQuantity()).thenReturn(NEGATIVE_QUANTITY).thenThrow(Exception.class);
-		Whitebox.invokeMethod(cartServiceImpl, "validate", cartDto);
-	}*/
+		Mockito.when(cartDto.getQuantity()).thenReturn(quantity);
+		PowerMockito.mockStatic(EntityTransformerUtility.class);
+		ShoppingCart shoppingCart = Mockito.mock(ShoppingCart.class);
+		List<CartItem> cartItems = new ArrayList<>();
+		Mockito.when(shoppingCart.getCartItems()).thenReturn(cartItems);
+		cartServiceImpl.addItemInCart(authToken, cartDto);
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	@Test(expected = RuntimeException.class)
+	public final void testaddItemInCartFailure() throws Exception {
+		CartDto cartDto = Mockito.mock(CartDto.class);
+		Mockito.when(cartDto.getSkuCode()).thenReturn(SKU_CODE);
+		Mockito.when(cartDto.getQuantity()).thenReturn(quantity);
+		PowerMockito.mockStatic(EntityTransformerUtility.class);
+		ShoppingCart shoppingCart = Mockito.mock(ShoppingCart.class);
+		Cart cart = Mockito.mock(Cart.class);
+		Mockito.when(cartRepository.findByUserId(userId)).thenReturn(cart);
+		Mockito.when(EntityTransformerUtility.convertJsonToJavaObject(cart.getCartJson())).thenReturn(shoppingCart);
+		List<CartItem> cartItems = new ArrayList<>();
+		Mockito.when(shoppingCart.getCartItems()).thenReturn(cartItems);
+		Mockito.when(cartRepository.save(cart)).thenThrow(RuntimeException.class);
+		cartServiceImpl.addItemInCart(authToken, cartDto);
+	}
 
 }

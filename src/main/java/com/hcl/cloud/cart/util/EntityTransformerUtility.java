@@ -2,11 +2,14 @@ package com.hcl.cloud.cart.util;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hcl.cloud.cart.domain.Cart;
+import com.hcl.cloud.cart.controller.CartController;
 import com.hcl.cloud.cart.domain.ShoppingCart;
 
 /**
@@ -15,7 +18,7 @@ import com.hcl.cloud.cart.domain.ShoppingCart;
  */
 public class EntityTransformerUtility {
 
-	//private static final Logger LOG = Logger.getLogger(EntityTransformerUtility.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
 	
 	/**
 	 * Convert Java object to Json.
@@ -27,15 +30,12 @@ public class EntityTransformerUtility {
 		String jsonString = "";
 		try {
 			jsonString = objectMapper.writeValueAsString(object);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-			//LOG.error(e.getMessage());
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-			//LOG.error(e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			//LOG.error(e.getMessage());
+		} catch (JsonParseException ex) {
+			LOG.error(ex.getMessage());
+		} catch (JsonMappingException ex) {
+			LOG.error(ex.getMessage());
+		} catch (IOException ex) {
+			LOG.error(ex.getMessage());
 		}
 		return jsonString;
 	}
@@ -48,19 +48,17 @@ public class EntityTransformerUtility {
 	public static ShoppingCart convertJsonToJavaObject(final String jsonString) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		ShoppingCart ShoppingCart = null;
+		ShoppingCart shoppingCart = null;
 		try {
-			ShoppingCart = objectMapper.readValue(jsonString, ShoppingCart.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-			//LOG.error(e.getMessage());
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-			//LOG.error(e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			//LOG.error(e.getMessage());
+			shoppingCart = objectMapper.readValue(jsonString, ShoppingCart.class);
+			LOG.info("succesfully convertJsonToJavaObject.");
+		} catch (JsonParseException ex) {
+			LOG.error(ex.getMessage());
+		} catch (JsonMappingException ex) {
+			LOG.error(ex.getMessage());
+		} catch (IOException ex) {
+			LOG.error(ex.getMessage());
 		}
-		return ShoppingCart;
+		return shoppingCart;
 	}
 }
