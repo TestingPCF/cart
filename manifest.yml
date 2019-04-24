@@ -1,7 +1,7 @@
 ---
 applications:
   - name: cart
-    memory: 2G
+    memory: 1G
     instances: 1
     routes:
     - route: cart.apps.cnpsandbox.dryice01.in.hclcnlabs.com

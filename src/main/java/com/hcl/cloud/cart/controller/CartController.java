@@ -25,7 +25,6 @@ import com.hcl.cloud.cart.service.CartService;
  * @author baghelp
  */
 @RestController
-@RequestMapping("/user")
 public class CartController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
