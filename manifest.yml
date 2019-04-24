@@ -8,3 +8,6 @@ applications:
     path: target/cart-0.0.1-SNAPSHOT.jar
     services:
       - dbService
+      - log-drain
+	  - app-monitoring
+      

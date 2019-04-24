@@ -14,6 +14,8 @@ public class ProductDto {
 
 	private String category;
 
+	private boolean is_deleted;
+
 	public String getSkuCode() {
 		return skuCode;
 	}
@@ -60,6 +62,14 @@ public class ProductDto {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public boolean isIs_deleted() {
+		return is_deleted;
+	}
+
+	public void setIs_deleted(boolean is_deleted) {
+		this.is_deleted = is_deleted;
 	}
 
 }

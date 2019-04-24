@@ -1,12 +1,15 @@
 package com.hcl.cloud.cart.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +21,11 @@ import com.hcl.cloud.cart.domain.CartItem;
 import com.hcl.cloud.cart.domain.ShoppingCart;
 import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.dto.InventoryResponse;
+import com.hcl.cloud.cart.dto.ProductDto;
 import com.hcl.cloud.cart.dto.ProductResponse;
+import com.hcl.cloud.cart.dto.TokenInfo;
 import com.hcl.cloud.cart.exception.BadRequestException;
+import com.hcl.cloud.cart.exception.CustomException;
 import com.hcl.cloud.cart.repository.CartRepository;
 import com.hcl.cloud.cart.service.CartService;
 import com.hcl.cloud.cart.util.EntityTransformerUtility;
@@ -37,7 +43,7 @@ public class CartServiceImpl implements CartService {
 	/**
 	 * userId - represents the id of the user, which is unique for all the users.
 	 */
-	private static String userId = "123";
+	private String userId = "123";
 
 	/**
 	 * Autowired object of the CartRepository to be able to access the members of
@@ -58,7 +64,12 @@ public class CartServiceImpl implements CartService {
 	public boolean addItemInCart(final String authToken, final CartDto cartDto) throws Exception {
 		boolean notPreset = false;
 		validate(cartDto);
-		checkInventory(cartDto, authToken);
+		String id = getUserIdByToken(authToken);
+		if(id != null && !"".equals(id)) {
+			userId = id;
+		}
+		ProductResponse productResponse = getProductDetails(cartDto, authToken);
+		setPrices(productResponse, cartDto);
 		Cart cart = getCart(authToken);
 		ShoppingCart shoppingCart = null;
 
@@ -72,10 +83,7 @@ public class CartServiceImpl implements CartService {
 		if (shoppingCart == null) {
 			shoppingCart = new ShoppingCart();
 			shoppingCart.setUserId(userId);
-			CartItem cartItem = new CartItem();
-			cartItem.setItemCode(cartDto.getSkuCode());
-			cartItem.setQuantity(cartDto.getQuantity());
-			shoppingCart.getCartItems().add(cartItem);
+			shoppingCart.getCartItems().add(transformCartItem(cartDto));
 
 			LOG.info("Item adedd successfully in the shopping cart.");
 			notPreset = true;
@@ -90,10 +98,7 @@ public class CartServiceImpl implements CartService {
 			}
 		}
 		if (!notPreset) {
-			CartItem cartItem = new CartItem();
-			cartItem.setItemCode(cartDto.getSkuCode());
-			cartItem.setQuantity(cartDto.getQuantity());
-			shoppingCart.getCartItems().add(cartItem);
+			shoppingCart.getCartItems().add(transformCartItem(cartDto));
 		}
 		try {
 			String cartJson = EntityTransformerUtility.convertJavaToJsonString(shoppingCart);
@@ -133,12 +138,13 @@ public class CartServiceImpl implements CartService {
 
 	/**
 	 * Method to retrieve the details of the shopping cart by userId.
-	 * 
-	 * @param authToken
-	 * @return
+	 * @param authToken string type.
+	 * @return shoppingCart {@link ShoppingCart}
+	 * @throws IOException 
+	 * @throws CustomException 
 	 */
 	@Override
-	public ShoppingCart getCartById(final String authToken) {
+	public ShoppingCart getCartById(final String authToken) throws CustomException, IOException {
 		Cart cart = getCart(authToken);
 		ShoppingCart shoppingCart = null;
 		if (cart != null) {
@@ -150,11 +156,16 @@ public class CartServiceImpl implements CartService {
 
 	/**
 	 * Private method to get cart details by userId.
-	 * 
 	 * @param authToken
-	 * @return
+	 * @return cart object Cart type.
+	 * @throws IOException 
+	 * @throws CustomException 
 	 */
-	private Cart getCart(final String authToken) {
+	private Cart getCart(final String authToken) throws CustomException, IOException {
+		String id = getUserIdByToken(authToken);
+		if(id != null && !"".equals(id)) {
+			userId = id;
+		}
 		return cartRepository.findByUserId(userId);
 	}
 
@@ -170,7 +181,7 @@ public class CartServiceImpl implements CartService {
 		JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
 		String json = new ObjectMapper().writeValueAsString(jsonNode);
 		InventoryResponse inventoryResponse = new ObjectMapper().readValue(json, InventoryResponse.class);
-		if (inventoryResponse.isInStock() && cartDto.getQuantity() > inventoryResponse.getQuantity()) {
+		if (!inventoryResponse.isInStock() || (inventoryResponse.isInStock() && cartDto.getQuantity() > inventoryResponse.getQuantity())) {
 			throw new BadRequestException("Item out of stock");
 		}
 	}
@@ -181,13 +192,64 @@ public class CartServiceImpl implements CartService {
 	 * @throws IOException
 	 * @throws BadRequestException
 	 */
-	private void getProductDetails(final CartDto cartDto, final String authToken) throws IOException, BadRequestException {
+	private ProductResponse getProductDetails(final CartDto cartDto, final String authToken) throws IOException, BadRequestException {
 		ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.PRODUCT, null, authToken,
 				cartDto.getSkuCode());
 		JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
 		String json = new ObjectMapper().writeValueAsString(jsonNode);
 		ProductResponse productResponse = new ObjectMapper().readValue(json, ProductResponse.class);
-		
+		if(productResponse != null && CartConstant.NO_CONTENT.equals(productResponse.getStatusCode())) {
+			throw new BadRequestException(productResponse.getStatus());
+		} else if(productResponse != null && !CartConstant.NO_CONTENT.equals(productResponse.getStatusCode())) {
+			checkInventory(cartDto, authToken);
+		}
+		return productResponse;
 	}
 
+	/**
+	 * This method return userId based on Authorization token value.
+	 * @param authToken {@link String}
+	 * @return userId {@link String} based on token.
+	 * @throws IOException 
+	 * @throws CustomException
+	 */
+	private String getUserIdByToken(final String authToken) throws IOException, CustomException {
+		try {
+			ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.TOKEN, null, authToken, null); 
+			JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
+			String json = new ObjectMapper().writeValueAsString(jsonNode);
+			TokenInfo tokenInfo = new ObjectMapper().readValue(json, TokenInfo.class);
+			if(tokenInfo != null && tokenInfo.getStatus() == 0) {
+				return tokenInfo.getUserId();
+			} else if(tokenInfo != null && tokenInfo.getStatus() == 401) {
+				throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
+			}
+		} catch(HttpClientErrorException ex) {
+			throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
+		}
+		return null;
+	}
+	
+	private void setPrices(final ProductResponse productResponse, final CartDto cartDto) {
+		if(productResponse != null) {
+			ProductDto productDto = productResponse.getProductList().get(0);
+			if(productDto != null) {
+				cartDto.setListrice(new BigDecimal(productDto.getListPrice()));
+				cartDto.setSalePrice(new BigDecimal(productDto.getSalePrice()));
+			}
+		}
+	}
+	
+	/**
+	 * @param cartDto.
+	 * @return cartItem {@link CartItem} 
+	 */
+	private CartItem transformCartItem(final CartDto cartDto) {
+		CartItem cartItem = new CartItem();
+		cartItem.setItemCode(cartDto.getSkuCode());
+		cartItem.setQuantity(cartDto.getQuantity());
+		cartItem.setListPrice(cartDto.getListrice());
+		cartItem.setSalePrice(cartDto.getSalePrice());
+		return cartItem;
+	}
 }

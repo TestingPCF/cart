@@ -1,5 +1,7 @@
 package com.hcl.cloud.cart.controller;
 
+import java.io.IOException;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 
 import com.hcl.cloud.cart.domain.ShoppingCart;
 import com.hcl.cloud.cart.dto.CartDto;
+import com.hcl.cloud.cart.exception.CustomException;
 import com.hcl.cloud.cart.service.CartService;
 
 /**
@@ -53,10 +56,12 @@ public class CartControllerTest {
 	
     /**
      * Test Success for create Order.
+     * @throws IOException 
+     * @throws CustomException 
      */
 
     @Test
-    public final void testGetCartSuccess() {
+    public final void testGetCartSuccess() throws CustomException, IOException {
     	ShoppingCart shoppingCart = Mockito.mock(ShoppingCart.class);
     	Mockito.when(cartService.getCartById(AUTH_TOKEN)).thenReturn(shoppingCart);
         Assert.assertEquals(HttpStatus.OK, cartController.getCart(AUTH_TOKEN).getStatusCode());

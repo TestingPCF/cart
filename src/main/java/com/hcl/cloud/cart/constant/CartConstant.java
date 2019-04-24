@@ -7,6 +7,8 @@ package com.hcl.cloud.cart.constant;
  */
 public interface CartConstant {
 
+	String NO_CONTENT= "204";
+	
     /**
      * Constant for success message.
      */
@@ -31,6 +33,11 @@ public interface CartConstant {
     String FAIL = "failed";
     
     /**
+     * CART_EMPTY.
+     */
+    String CART_EMPTY = "Cart is empty";
+    
+    /**
      * AUTHORIZATION_TOKEN.
      */
     String AUTHORIZATION_TOKEN = "Authorization";
@@ -44,4 +51,9 @@ public interface CartConstant {
      * PRODUCT.
      */
     String PRODUCT = "product";
+    
+    /**
+     * TOKEN.
+     */
+    String TOKEN = "token";
 }

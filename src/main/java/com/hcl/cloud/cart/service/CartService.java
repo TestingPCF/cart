@@ -1,7 +1,10 @@
 package com.hcl.cloud.cart.service;
 
+import java.io.IOException;
+
 import com.hcl.cloud.cart.domain.ShoppingCart;
 import com.hcl.cloud.cart.dto.CartDto;
+import com.hcl.cloud.cart.exception.CustomException;
 
 public interface CartService {
 
@@ -18,6 +21,6 @@ public interface CartService {
      * @param authToken
      * @return
      */
-    ShoppingCart getCartById(String authToken);
+    ShoppingCart getCartById(String authToken) throws CustomException, IOException;
 
 }

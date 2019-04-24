@@ -28,12 +28,12 @@ public class CartItem {
     /**
      * salePrice - represents the sale price of the item.
      */
-    private BigDecimal salePrice = new BigDecimal(10.00);
+    private BigDecimal salePrice = new BigDecimal(0.00);
 
     /**
      * listrice - represents the list price of the item.
      */
-    private BigDecimal listrice = new BigDecimal(12.00);
+    private BigDecimal listPrice = new BigDecimal(0.00);
 
     /**
      * Getter method for the itemCode.
@@ -84,18 +84,18 @@ public class CartItem {
     }
 
     /**
-     * Getter method for the listrice.
+     * Getter method for the listPrice.
      * @return
      */
-    public BigDecimal getListrice() {
-        return listrice;
+    public BigDecimal getListPrice() {
+        return listPrice;
     }
 
     /**
-     * Setter method for the listrice.
-     * @param listrice
+     * Setter method for the listPrice.
+     * @param listPrice
      */
-    public void setListrice(BigDecimal listrice) {
-        this.listrice = listrice;
+    public void setListPrice(BigDecimal listPrice) {
+        this.listPrice = listPrice;
     }
 }

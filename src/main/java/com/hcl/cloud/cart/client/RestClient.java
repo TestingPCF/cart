@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hcl.cloud.cart.constant.CartConstant;
@@ -24,10 +25,15 @@ public class RestClient {
     public static String inventoryUri = "http://inventory.apps.cnpsandbox.dryice01.in.hclcnlabs.com/"; //"http://localhost:8181/inventory/";
 
     /**
-     * cartUri.
+     * productUri.
      */
     public static String productUri = "http://products.apps.cnpsandbox.dryice01.in.hclcnlabs.com/product/";
 
+    /**
+     * uaa.
+     */
+    public static String uaa = "http://uaa.apps.cnpsandbox.dryice01.in.hclcnlabs.com/uaa/tokenInfo";
+    
     /**
      * logger.
      */
@@ -44,8 +50,8 @@ public class RestClient {
     public static ResponseEntity<Object> getResponseFromMS(
             final String serviceName,
             final Object object,
-           final String authorization, final String skuCode) {
-        try {
+           final String authorization, final String skuCode) throws HttpClientErrorException{
+        //try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -54,16 +60,24 @@ public class RestClient {
                     headers);
             ResponseEntity<Object> response = null;
             switch (serviceName) {
-                case "product":
-                	productUri = productUri + skuCode;
-                   response = restTemplate.exchange(productUri,
+                case CartConstant.PRODUCT:
+                	LOGGER.info("Call API of product MS from cart");
+                   response = restTemplate.exchange(productUri + skuCode,
                                     HttpMethod.GET,
                                     entity,
                                     Object.class);
                     return response;
-                case "inventory":
-                	inventoryUri = inventoryUri+skuCode;
-                	response = restTemplate.exchange(inventoryUri,
+                case CartConstant.INVERNTORY:
+                	LOGGER.info("Call API of inventory MS from cart");
+                	response = restTemplate.exchange(inventoryUri+skuCode,
+                            HttpMethod.GET,
+                            entity,
+                            Object.class);
+                	return response;
+                	
+                case CartConstant.TOKEN:
+                	LOGGER.info("Call API of Token MS from cart");
+                	response = restTemplate.exchange(uaa,
                             HttpMethod.GET,
                             entity,
                             Object.class);
@@ -73,11 +87,6 @@ public class RestClient {
                                 .INTERNAL_SERVER_ERROR);
 
             }
-
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
     }
 
    
