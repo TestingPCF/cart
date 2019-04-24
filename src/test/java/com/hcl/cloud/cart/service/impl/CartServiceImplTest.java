@@ -23,6 +23,10 @@ import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.repository.CartRepository;
 import com.hcl.cloud.cart.util.EntityTransformerUtility;
 
+/**
+ * CartServiceImplTest - Test class for the CartServiceImpl class.
+ * @author kumar_sanjay
+ */
 @RunWith(value = PowerMockRunner.class)
 @PrepareForTest({ EntityTransformerUtility.class })
 public class CartServiceImplTest {

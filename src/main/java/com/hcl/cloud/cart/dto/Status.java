@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Status class for status.
+ * @author kumar_sanjay
  */
 public class Status {
 

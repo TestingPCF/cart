@@ -1,12 +1,32 @@
 package com.hcl.cloud.cart.constant;
 
+/**
+ * Constants class.
+ *
+ * @author baghelp
+ */
 public interface CartConstant {
 
-	String RETRIEVE_SUCCESS = "success";
-	
-	String UPDATE_SUCCESS = "updated successfully";
-	
-	String DELETED = "deleted successfully";
-	
-	String FAIL = "failed";
+    /**
+     * Constant for success message.
+     */
+    String RETRIEVE_SUCCESS = "success";
+
+
+    /**
+     * Constant for updated message.
+     */
+    String UPDATE_SUCCESS = "updated successfully";
+
+
+    /**
+     * Constant for deleted message.
+     */
+    String DELETED = "deleted successfully";
+
+
+    /**
+     * Constant for failed message.
+     */
+    String FAIL = "failed";
 }

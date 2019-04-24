@@ -9,6 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcl.cloud.cart.domain.Cart;
 import com.hcl.cloud.cart.domain.ShoppingCart;
 
+/**
+ * EntityTransformerUtility - Utility class to convert java object to Json and vice-versa.
+ * @author kumar_sanjay
+ */
 public class EntityTransformerUtility {
 
 	//private static final Logger LOG = Logger.getLogger(EntityTransformerUtility.class);

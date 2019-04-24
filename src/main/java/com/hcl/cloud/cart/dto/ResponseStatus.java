@@ -28,7 +28,7 @@ public final class ResponseStatus<E> {
 	private final Collection<E> dataSet;
 
 	/**
-	 * @author singh.ro Builder to set corresponding values.
+	 * @author kumar_sanjay Builder to set corresponding values.
 	 * @param <E>
 	 */
 	public static class Builder<E> {
@@ -49,7 +49,6 @@ public final class ResponseStatus<E> {
 
 		/**
 		 * Object instantiation with mandatory fields.
-		 * 
 		 * @param status
 		 */
 		public Builder(final Status status) {
@@ -58,7 +57,6 @@ public final class ResponseStatus<E> {
 
 		/**
 		 * Builder<E>.
-		 * 
 		 * @param data
 		 * @return builder.
 		 */
@@ -69,7 +67,6 @@ public final class ResponseStatus<E> {
 
 		/**
 		 * Builder<E>.
-		 * 
 		 * @param dataSet
 		 * @return builder.
 		 */
@@ -79,9 +76,7 @@ public final class ResponseStatus<E> {
 		}
 
 		/**
-		 * 
-		 * /** ResponseStatus<E>.
-		 * 
+		 * ResponseStatus<E>.
 		 * @return responseStatus.
 		 */
 		public final ResponseStatus<E> build() {
@@ -91,7 +86,6 @@ public final class ResponseStatus<E> {
 
 	/**
 	 * setting builder values.
-	 * 
 	 * @param builder
 	 */
 	private ResponseStatus(final Builder<E> builder) {
@@ -109,7 +103,6 @@ public final class ResponseStatus<E> {
 
 	/**
 	 * Gets the data.
-	 * 
 	 * @return data.
 	 */
 	public E getData() {
