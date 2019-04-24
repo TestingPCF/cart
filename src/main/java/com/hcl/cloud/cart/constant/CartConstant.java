@@ -29,4 +29,19 @@ public interface CartConstant {
      * Constant for failed message.
      */
     String FAIL = "failed";
+    
+    /**
+     * AUTHORIZATION_TOKEN.
+     */
+    String AUTHORIZATION_TOKEN = "Authorization";
+    
+    /**
+     * INVERNTORY.
+     */
+    String INVERNTORY = "inventory";
+    
+    /**
+     * PRODUCT.
+     */
+    String PRODUCT = "product";
 }

@@ -39,7 +39,7 @@ public class CartController {
      * @param cartDto
      * @return
      */
-    @PostMapping("/shoppingcart")
+    @PostMapping
     public ResponseEntity<ResponseStatus<String>> addItemInCart(@RequestHeader(value = "Authorization", required = true) String authToken, @RequestBody CartDto cartDto) {
         ResponseStatus<String> response = null;
         Status messageStatus;
@@ -68,12 +68,11 @@ public class CartController {
      * @param authToken
      * @return
      */
-    @GetMapping("/shoppingcart")
+    @GetMapping
     public ResponseEntity<ResponseStatus<ShoppingCart>> getCart(@RequestHeader(value = "Authorization", required = true) String authToken) {
-        ResponseStatus<ShoppingCart> response;
         ShoppingCart shoppingCart = cartService.getCartById(authToken);
         Status status = new Status(HttpStatus.OK, CartConstant.RETRIEVE_SUCCESS);
-        response = new ResponseStatus.Builder<ShoppingCart>(status).setEntity(shoppingCart).build();
+        ResponseStatus<ShoppingCart> response = new ResponseStatus.Builder<ShoppingCart>(status).setEntity(shoppingCart).build();
 
         LOG.info("Item retrieved successfully into the cart.");
         return new ResponseEntity<ResponseStatus<ShoppingCart>>(response, response.getStatus().status());

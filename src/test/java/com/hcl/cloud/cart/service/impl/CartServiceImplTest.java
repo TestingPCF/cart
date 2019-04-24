@@ -1,4 +1,4 @@
-package com.hcl.cloud.cart.service.impl;
+/*package com.hcl.cloud.cart.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,61 +23,61 @@ import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.repository.CartRepository;
 import com.hcl.cloud.cart.util.EntityTransformerUtility;
 
-/**
+*//**
  * CartServiceImplTest - Test class for the CartServiceImpl class.
  * @author kumar_sanjay
- */
+ *//*
 @RunWith(value = PowerMockRunner.class)
 @PrepareForTest({ EntityTransformerUtility.class })
 public class CartServiceImplTest {
 
-	/**
+	*//**
 	 * userId.
-	 */
+	 *//*
 	private static String userId = "123";
 
-	/**
+	*//**
 	 * authToken.
-	 */
+	 *//*
 	private final static String authToken = "1212bjhsds6";
 
-	/**
+	*//**
 	 * skuCode.
-	 */
+	 *//*
 	private final static String SKU_CODE = "iphone6Red";
 
-	/**
+	*//**
 	 * quantity.
-	 */
+	 *//*
 	private final static int quantity = 2;
 
-	/**
+	*//**
 	 * LIST_PRICE.
-	 */
+	 *//*
 	private final static BigDecimal LIST_PRICE = new BigDecimal(12.00);
 
-	/**
+	*//**
 	 * SALE_PRICE.
-	 */
+	 *//*
 	private final static BigDecimal SALE_PRICE = new BigDecimal(10.00);
 
-	/**
+	*//**
 	 * cartServiceImpl Mock.
-	 */
+	 *//*
 	@InjectMocks
 	private CartServiceImpl cartServiceImpl;
 
-	/**
+	*//**
 	 * cartRepository.
-	 */
+	 *//*
 	@Mock
 	private CartRepository cartRepository;
 
-	/**
+	*//**
 	 * This Method is called before the test is executed.
 	 * 
 	 * @throws Exception
-	 **/
+	 **//*
 
 	@Before
 	public void setUp() throws Exception {
@@ -85,13 +85,13 @@ public class CartServiceImplTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	/**
+	*//**
 	 * Success Test for getCartById Method.
-	 **/
+	 **//*
 
-	/**
+	*//**
 	 * Success test method for GetCartById. 
-	 */
+	 *//*
 	@Test
 	public final void testGetCartByIdSuccess() {
 		PowerMockito.mockStatic(EntityTransformerUtility.class);
@@ -102,19 +102,19 @@ public class CartServiceImplTest {
 		cartServiceImpl.getCartById(authToken);
 	}
 
-	/**
+	*//**
 	 * Success Test for testGetCartByIdWhenCartIsNull Method.
-	 **/
+	 **//*
 	@Test
 	public final void testGetCartByIdWhenCartIsNull() {
 		Mockito.when(cartRepository.findByUserId(userId)).thenReturn(null);
 		cartServiceImpl.getCartById(authToken);
 	}
 
-	/**
+	*//**
 	 * Success Test for testaddItemInCartSuccess Method.
 	 * @throws Exception
-	 **/
+	 **//*
 	@Test
 	public final void testaddItemInCartSuccess() throws Exception {
 		CartDto cartDto = Mockito.mock(CartDto.class);
@@ -138,10 +138,10 @@ public class CartServiceImplTest {
 		cartServiceImpl.addItemInCart(authToken, cartDto);
 	}
 
-	/**
+	*//**
 	 * This method test for Validate when SKU is null in request.
 	 * @throws Exception
-	 */
+	 *//*
 	@Test(expected = Exception.class)
 	public void testValidateWhenSkuIsNull() throws Exception {
 		CartDto cartDto = Mockito.mock(CartDto.class);
@@ -162,9 +162,9 @@ public class CartServiceImplTest {
 		cartServiceImpl.addItemInCart(authToken, cartDto);
 	}
 	
-	/**
+	*//**
 	 * @throws Exception
-	 */
+	 *//*
 	@Test(expected = RuntimeException.class)
 	public final void testaddItemInCartFailure() throws Exception {
 		CartDto cartDto = Mockito.mock(CartDto.class);
@@ -182,3 +182,4 @@ public class CartServiceImplTest {
 	}
 
 }
+*/

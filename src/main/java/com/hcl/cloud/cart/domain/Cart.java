@@ -44,7 +44,6 @@ public class Cart implements Serializable {
      * cart_object field of the database table "cart".
      * It's a string type value that stores the string in json format in the database.
      */
-    @Lob
     @Column(name = "CART_OBJECT")
     private String cartJson;
 
