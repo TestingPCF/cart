@@ -19,6 +19,7 @@ import com.hcl.cloud.cart.domain.ShoppingCart;
 import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.exception.BadRequestException;
 import com.hcl.cloud.cart.exception.CustomException;
+import com.hcl.cloud.cart.exception.ServiceUnavailableException;
 import com.hcl.cloud.cart.service.CartService;
 
 /**
@@ -157,5 +158,16 @@ public class CartControllerTest {
     	CartDto cartDto = Mockito.mock(CartDto.class);
     	Mockito.when(cartService.addItemInCart(AUTH_TOKEN, cartDto)).thenThrow(CustomException.class);
     	Assert.assertEquals(HttpStatus.UNAUTHORIZED, cartController.addItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
+    }
+    
+    /**
+     * Test Success for testAddItemInCartFailure for ServiceUnavailableException.
+     * @throws Exception 
+     */
+    @Test
+    public final void testAddItemInCartWhenServiceUnavailableExceptionOccur() throws Exception {
+    	CartDto cartDto = Mockito.mock(CartDto.class);
+    	Mockito.when(cartService.addItemInCart(AUTH_TOKEN, cartDto)).thenThrow(ServiceUnavailableException.class);
+    	Assert.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, cartController.addItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
     }
 }

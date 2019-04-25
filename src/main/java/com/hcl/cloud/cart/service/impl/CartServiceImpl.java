@@ -9,13 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hcl.cloud.cart.client.RestClient;
 import com.hcl.cloud.cart.constant.CartConstant;
 import com.hcl.cloud.cart.controller.CartController;
 import com.hcl.cloud.cart.domain.Cart;
@@ -34,18 +30,12 @@ import com.hcl.cloud.cart.util.EntityTransformerUtility;
 
 /**
  * CartServiceImpl - implementation class for the cart service.
- * 
  * @author baghelp
  */
 @Service
 public class CartServiceImpl implements CartService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
-
-	/**
-	 * userId - represents the id of the user, which is unique for all the users.
-	 */
-	private String userId = "123";
 
 	/**
 	 * Autowired object of the CartRepository to be able to access the members of
@@ -66,10 +56,8 @@ public class CartServiceImpl implements CartService {
 	public boolean addItemInCart(final String authToken, final CartDto cartDto) throws Exception {
 		boolean notPreset = false;
 		validate(cartDto);
-		String id = getUserIdByToken(authToken);
-		if(id != null && !"".equals(id)) {
-			userId = id;
-		}
+		String userId = getUserIdByToken(authToken);
+		
 		ProductResponse productResponse = getProductDetails(cartDto, authToken);
 		setPrices(productResponse, cartDto);
 		Cart cart = getCart(authToken);
@@ -164,10 +152,7 @@ public class CartServiceImpl implements CartService {
 	 * @throws CustomException 
 	 */
 	private Cart getCart(final String authToken) throws CustomException, IOException {
-		String id = getUserIdByToken(authToken);
-		if(id != null && !"".equals(id)) {
-			userId = id;
-		}
+		String userId = getUserIdByToken(authToken);
 		return cartRepository.findByUserId(userId);
 	}
 
@@ -180,11 +165,7 @@ public class CartServiceImpl implements CartService {
 	 */
 	private void checkInventory(final CartDto cartDto, final String authToken) throws IOException, BadRequestException, ServiceUnavailableException {
 		try {
-			ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.INVERNTORY, null, authToken,
-					cartDto.getSkuCode());
-			JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
-			String json = new ObjectMapper().writeValueAsString(jsonNode);
-			InventoryResponse inventoryResponse = new ObjectMapper().readValue(json, InventoryResponse.class);
+			InventoryResponse inventoryResponse = EntityTransformerUtility.getInventoryResponse(cartDto, authToken);
 			if (!inventoryResponse.isInStock() || (inventoryResponse.isInStock() && cartDto.getQuantity() > inventoryResponse.getQuantity())) {
 				throw new BadRequestException("Item out of stock");
 			}
@@ -202,11 +183,7 @@ public class CartServiceImpl implements CartService {
 	 * @throws ServiceUnavailableException 
 	 */
 	private ProductResponse getProductDetails(final CartDto cartDto, final String authToken) throws IOException, BadRequestException, ServiceUnavailableException {
-		ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.PRODUCT, null, authToken,
-				cartDto.getSkuCode());
-		JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
-		String json = new ObjectMapper().writeValueAsString(jsonNode);
-		ProductResponse productResponse = new ObjectMapper().readValue(json, ProductResponse.class);
+		ProductResponse productResponse = EntityTransformerUtility.getProductResponse(cartDto, authToken);
 		if(productResponse != null && CartConstant.NO_CONTENT.equals(productResponse.getStatusCode())) {
 			throw new BadRequestException(productResponse.getStatus());
 		} else if(productResponse != null && !CartConstant.NO_CONTENT.equals(productResponse.getStatusCode())) {
@@ -241,7 +218,7 @@ public class CartServiceImpl implements CartService {
 	 * @param cartDto
 	 */
 	private void setPrices(final ProductResponse productResponse, final CartDto cartDto) {
-		if(productResponse != null) {
+		if(productResponse != null && !productResponse.getProductList().isEmpty()) {
 			ProductDto productDto = productResponse.getProductList().get(0);
 			if(productDto != null) {
 				cartDto.setListrice(new BigDecimal(productDto.getListPrice()));

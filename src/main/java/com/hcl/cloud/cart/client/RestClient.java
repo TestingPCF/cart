@@ -22,12 +22,12 @@ public class RestClient {
     /**
      * inventoryUri.
      */
-    public static String inventoryUri = "http://inventory.apps.cnpsandbox.dryice01.in.hclcnlabs.com/"; //"http://localhost:8181/inventory/";
+    public static String inventoryUri = "http://inventory.apps.cnpsandbox.dryice01.in.hclcnlabs.com/";
 
     /**
      * productUri.
      */
-    public static String productUri = "http://products.apps.cnpsandbox.dryice01.in.hclcnlabs.com/product/";
+    public static String productUri = "http://products.apps.cnpsandbox.dryice01.in.hclcnlabs.com/";
 
     /**
      * uaa.
