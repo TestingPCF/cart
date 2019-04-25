@@ -40,7 +40,7 @@ public interface CartConstant {
     /**
      * AUTHORIZATION_TOKEN.
      */
-    String AUTHORIZATION_TOKEN = "Authorization";
+    String AUTHORIZATION_TOKEN = "accessToken";
     
     /**
      * INVERNTORY.

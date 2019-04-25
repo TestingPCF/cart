@@ -45,7 +45,7 @@ public class CartController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<ResponseStatus<String>> addItemInCart(@RequestHeader(value = "Authorization", required = true) String authToken, @RequestBody CartDto cartDto) {
+    public ResponseEntity<ResponseStatus<String>> addItemInCart(@RequestHeader(value = "accessToken", required = true) String authToken, @RequestBody CartDto cartDto) {
         ResponseStatus<String> response = null;
         Status messageStatus;
         try {
@@ -82,7 +82,7 @@ public class CartController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<ResponseStatus<?>> getCart(@RequestHeader(value = "Authorization", required = true) String authToken) {
+    public ResponseEntity<ResponseStatus<?>> getCart(@RequestHeader(value = "accessToken", required = true) String authToken) {
         ShoppingCart shoppingCart = null;
         ResponseStatus<ShoppingCart> response = null;
         Status messageStatus = null;
