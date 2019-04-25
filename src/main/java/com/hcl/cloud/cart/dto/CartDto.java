@@ -26,7 +26,17 @@ public class CartDto {
     /**
      * listrice - represents the list price of the item.
      */
-    private BigDecimal listrice = new BigDecimal(0.00);
+    private BigDecimal listPrice = new BigDecimal(0.00);
+    
+    /**
+     * quantityInCart.
+     */
+    private int quantityInCart;
+    
+    /**
+     * productName.
+     */
+    private String productName;
 
     /**
      * Getter method for the skuCode.
@@ -40,7 +50,7 @@ public class CartDto {
      * Setter method for the skuCode.
      * @param skuCode
      */
-    public void setSkuCode(String skuCode) {
+    public void setSkuCode(final String skuCode) {
         this.skuCode = skuCode;
     }
 
@@ -56,7 +66,7 @@ public class CartDto {
      * Setter method for the quantity.
      * @param quantity
      */
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
     
@@ -72,23 +82,55 @@ public class CartDto {
      * Setter method for the salePrice.
      * @param salePrice
      */
-    public void setSalePrice(BigDecimal salePrice) {
+    public void setSalePrice(final BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
 
     /**
-     * Getter method for the listrice.
+     * Getter method for the listPrice.
      * @return
      */
-    public BigDecimal getListrice() {
-        return listrice;
-    }
+    public BigDecimal getListPrice() {
+		return listPrice;
+	}
 
     /**
-     * Setter method for the listrice.
-     * @param listrice
+     * Setter method for the listPrice.
+     * @param listPrice
      */
-    public void setListrice(BigDecimal listrice) {
-        this.listrice = listrice;
-    }
+	public void setListPrice(BigDecimal listPrice) {
+		this.listPrice = listPrice;
+	}
+
+	/**
+     * Getter method for the quantityInCart.
+     * @return
+     */
+	public int getQuantityInCart() {
+		return quantityInCart;
+	}
+
+	/**
+     * Setter method for the quantityInCart.
+     * @param quantityInCart
+     */
+	public void setQuantityInCart(int quantityInCart) {
+		this.quantityInCart = quantityInCart;
+	}
+
+	 /**
+     * Getter method for the productName.
+     * @return
+     */
+	public String getProductName() {
+		return productName;
+	}
+
+	/**
+     * Setter method for the productName.
+     * @param productName
+     */
+	public void setProductName(final String productName) {
+		this.productName = productName;
+	}
 }

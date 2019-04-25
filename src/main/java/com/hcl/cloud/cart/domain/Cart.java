@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -44,7 +43,7 @@ public class Cart implements Serializable {
      * cart_object field of the database table "cart".
      * It's a string type value that stores the string in json format in the database.
      */
-    @Column(name = "CART_OBJECT")
+    @Column(name = "CART_OBJECT", columnDefinition = "VARCHAR(4000)")
     private String cartJson;
 
     /**

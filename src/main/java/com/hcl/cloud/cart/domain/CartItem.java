@@ -34,6 +34,11 @@ public class CartItem {
      * listrice - represents the list price of the item.
      */
     private BigDecimal listPrice = new BigDecimal(0.00);
+    
+    /**
+     * productName.
+     */
+    private String productName;
 
     /**
      * Getter method for the itemCode.
@@ -47,7 +52,7 @@ public class CartItem {
      * Setter method for the itemCode.
      * @param itemCode
      */
-    public void setItemCode(String itemCode) {
+    public void setItemCode(final String itemCode) {
         this.itemCode = itemCode;
     }
 
@@ -63,7 +68,7 @@ public class CartItem {
      * Setter method for the quantity.
      * @param quantity
      */
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 
@@ -79,7 +84,7 @@ public class CartItem {
      * Setter method for the salePrice.
      * @param salePrice
      */
-    public void setSalePrice(BigDecimal salePrice) {
+    public void setSalePrice(final BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
 
@@ -95,7 +100,24 @@ public class CartItem {
      * Setter method for the listPrice.
      * @param listPrice
      */
-    public void setListPrice(BigDecimal listPrice) {
+    public void setListPrice(final BigDecimal listPrice) {
         this.listPrice = listPrice;
     }
+
+    /**
+     * Getter method for the productName.
+     * @return
+     */
+	public String getProductName() {
+		return productName;
+	}
+
+	/**
+     * Setter method for the productName.
+     * @param productName
+     */
+	public void setProductName(final String productName) {
+		this.productName = productName;
+	}
+    
 }

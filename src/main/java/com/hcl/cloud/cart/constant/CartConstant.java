@@ -7,6 +7,9 @@ package com.hcl.cloud.cart.constant;
  */
 public interface CartConstant {
 
+	/**
+	 * NO_CONTENT.
+	 */
 	String NO_CONTENT= "204";
 	
     /**

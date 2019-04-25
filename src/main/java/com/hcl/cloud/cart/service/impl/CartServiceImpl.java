@@ -57,18 +57,17 @@ public class CartServiceImpl implements CartService {
 		boolean notPreset = false;
 		validate(cartDto);
 		String userId = getUserIdByToken(authToken);
-		
-		ProductResponse productResponse = getProductDetails(cartDto, authToken);
-		setPrices(productResponse, cartDto);
 		Cart cart = getCart(authToken);
 		ShoppingCart shoppingCart = null;
-
 		if (cart != null) {
 			shoppingCart = EntityTransformerUtility.convertJsonToJavaObject(cart.getCartJson());
+			setCartQtyToDto(cartDto, shoppingCart);
 		} else {
 			cart = new Cart();
 			cart.setUserId(userId);
 		}
+		ProductResponse productResponse = getProductDetails(cartDto, authToken);
+		setPrices(productResponse, cartDto);
 
 		if (shoppingCart == null) {
 			shoppingCart = new ShoppingCart();
@@ -166,7 +165,8 @@ public class CartServiceImpl implements CartService {
 	private void checkInventory(final CartDto cartDto, final String authToken) throws IOException, BadRequestException, ServiceUnavailableException {
 		try {
 			InventoryResponse inventoryResponse = EntityTransformerUtility.getInventoryResponse(cartDto, authToken);
-			if (!inventoryResponse.isInStock() || (inventoryResponse.isInStock() && cartDto.getQuantity() > inventoryResponse.getQuantity())) {
+			int totalQuantity = cartDto.getQuantity() + cartDto.getQuantityInCart();
+			if (!inventoryResponse.isInStock() || (inventoryResponse.isInStock() && totalQuantity > inventoryResponse.getQuantity())) {
 				throw new BadRequestException("Item out of stock");
 			}
 		} catch(HttpClientErrorException ex) {
@@ -221,8 +221,9 @@ public class CartServiceImpl implements CartService {
 		if(productResponse != null && !productResponse.getProductList().isEmpty()) {
 			ProductDto productDto = productResponse.getProductList().get(0);
 			if(productDto != null) {
-				cartDto.setListrice(new BigDecimal(productDto.getListPrice()));
+				cartDto.setListPrice(new BigDecimal(productDto.getListPrice()));
 				cartDto.setSalePrice(new BigDecimal(productDto.getSalePrice()));
+				cartDto.setProductName(productDto.getProductName());
 			}
 		}
 	}
@@ -235,8 +236,23 @@ public class CartServiceImpl implements CartService {
 		CartItem cartItem = new CartItem();
 		cartItem.setItemCode(cartDto.getSkuCode());
 		cartItem.setQuantity(cartDto.getQuantity());
-		cartItem.setListPrice(cartDto.getListrice());
+		cartItem.setListPrice(cartDto.getListPrice());
 		cartItem.setSalePrice(cartDto.getSalePrice());
+		cartItem.setProductName(cartDto.getProductName());
 		return cartItem;
+	}
+	
+	/**
+	 * This method to set current quantity in cart to dto for inventory check.
+	 * @param cartDto {@link CartDto}
+	 * @param shoppingCart {@link ShoppingCart}
+	 */
+	private void setCartQtyToDto(final CartDto cartDto, final ShoppingCart shoppingCart) {
+		for(CartItem cartItem : shoppingCart.getCartItems()) {
+			if(cartItem.getItemCode().equalsIgnoreCase(cartDto.getSkuCode())) {
+				cartDto.setQuantityInCart(cartItem.getQuantity());
+			}
+		}
+		
 	}
 }
