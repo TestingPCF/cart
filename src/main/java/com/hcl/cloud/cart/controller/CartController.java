@@ -20,6 +20,7 @@ import com.hcl.cloud.cart.dto.ResponseStatus;
 import com.hcl.cloud.cart.dto.Status;
 import com.hcl.cloud.cart.exception.BadRequestException;
 import com.hcl.cloud.cart.exception.CustomException;
+import com.hcl.cloud.cart.exception.ServiceUnavailableException;
 import com.hcl.cloud.cart.service.CartService;
 
 /**
@@ -66,6 +67,10 @@ public class CartController {
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
         } catch (CustomException ex) {
             messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
+            response = new ResponseStatus.Builder<String>(messageStatus).build();
+            LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
+        }  catch (ServiceUnavailableException ex) {
+            messageStatus = new Status(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
             response = new ResponseStatus.Builder<String>(messageStatus).build();
             LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
         } catch (Exception ex) {

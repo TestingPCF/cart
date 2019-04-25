@@ -5,15 +5,15 @@ import org.springframework.http.HttpStatus;
 /**
  * @author kumar_sanjay checked Exception which needs to be checked when request is invalid.
  */
-public class CustomException extends RuntimeException{
-	
+public class ServiceUnavailableException extends RuntimeException{
+    
 	/**
-	 * @author kumar_sanjay checked Exception which needs to be checked when request is invalid.
+	 * serialVersionUID.
 	 */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-	 * Exception Specific message.
+	/**
+	 * message - Exception Specific message.
 	 */
     private final String message;
     
@@ -23,10 +23,11 @@ public class CustomException extends RuntimeException{
     private final HttpStatus httpStatus;
 
     /**
-	 * Constructs a {@link CustomException} with <code>message</code> as its detailed message.
+	 * Constructs a {@link ServiceUnavailableException} with <code>message</code> as its detailed message.
 	 * @param message String
+	 * @param httpStatus HttpStatus
 	 */
-    public CustomException(String message, HttpStatus httpStatus) {
+    public ServiceUnavailableException(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }
@@ -40,7 +41,7 @@ public class CustomException extends RuntimeException{
     }
 
     /**
-     * Setter method for httpStatus.
+     * Getter method for httpStatus.
      */
     public HttpStatus getHttpStatus() {
         return httpStatus;

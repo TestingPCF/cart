@@ -3,6 +3,8 @@ package com.hcl.cloud.cart.service.impl;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.naming.ServiceUnavailableException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,15 +176,21 @@ public class CartServiceImpl implements CartService {
 	 * @param authToken
 	 * @throws IOException
 	 * @throws BadRequestException
+	 * @throws ServiceUnavailableException 
 	 */
-	private void checkInventory(final CartDto cartDto, final String authToken) throws IOException, BadRequestException {
-		ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.INVERNTORY, null, authToken,
-				cartDto.getSkuCode());
-		JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
-		String json = new ObjectMapper().writeValueAsString(jsonNode);
-		InventoryResponse inventoryResponse = new ObjectMapper().readValue(json, InventoryResponse.class);
-		if (!inventoryResponse.isInStock() || (inventoryResponse.isInStock() && cartDto.getQuantity() > inventoryResponse.getQuantity())) {
-			throw new BadRequestException("Item out of stock");
+	private void checkInventory(final CartDto cartDto, final String authToken) throws IOException, BadRequestException, ServiceUnavailableException {
+		try {
+			ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.INVERNTORY, null, authToken,
+					cartDto.getSkuCode());
+			JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
+			String json = new ObjectMapper().writeValueAsString(jsonNode);
+			InventoryResponse inventoryResponse = new ObjectMapper().readValue(json, InventoryResponse.class);
+			if (!inventoryResponse.isInStock() || (inventoryResponse.isInStock() && cartDto.getQuantity() > inventoryResponse.getQuantity())) {
+				throw new BadRequestException("Item out of stock");
+			}
+		} catch(HttpClientErrorException ex) {
+			LOG.error("Inventory Service not available", ex.getMessage());
+			throw new com.hcl.cloud.cart.exception.ServiceUnavailableException("Inventory Service not available",  HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
 	
@@ -191,8 +199,9 @@ public class CartServiceImpl implements CartService {
 	 * @param authToken
 	 * @throws IOException
 	 * @throws BadRequestException
+	 * @throws ServiceUnavailableException 
 	 */
-	private ProductResponse getProductDetails(final CartDto cartDto, final String authToken) throws IOException, BadRequestException {
+	private ProductResponse getProductDetails(final CartDto cartDto, final String authToken) throws IOException, BadRequestException, ServiceUnavailableException {
 		ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.PRODUCT, null, authToken,
 				cartDto.getSkuCode());
 		JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
@@ -219,14 +228,18 @@ public class CartServiceImpl implements CartService {
 			if(tokenInfo != null && tokenInfo.getStatus() == 0) {
 				return tokenInfo.getUserId();
 			} else if(tokenInfo != null && tokenInfo.getStatus() == 401) {
-				throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
+				throw new CustomException("Unauthorized User", HttpStatus.UNAUTHORIZED);
 			}
 		} catch(HttpClientErrorException ex) {
-			throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
+			throw new CustomException("Unauthorized User", HttpStatus.UNAUTHORIZED);
 		}
 		return null;
 	}
 	
+	/**
+	 * @param productResponse
+	 * @param cartDto
+	 */
 	private void setPrices(final ProductResponse productResponse, final CartDto cartDto) {
 		if(productResponse != null) {
 			ProductDto productDto = productResponse.getProductList().get(0);
