@@ -4,13 +4,19 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hcl.cloud.cart.client.RestClient;
+import com.hcl.cloud.cart.constant.CartConstant;
 import com.hcl.cloud.cart.controller.CartController;
 import com.hcl.cloud.cart.domain.ShoppingCart;
+import com.hcl.cloud.cart.dto.TokenInfo;
 
 /**
  * EntityTransformerUtility - Utility class to convert java object to Json and vice-versa.
@@ -60,5 +66,17 @@ public class EntityTransformerUtility {
 			LOG.error(ex.getMessage());
 		}
 		return shoppingCart;
+	}
+	
+	/**
+	 * @param authToken
+	 * @return
+	 * @throws IOException
+	 */
+	public static TokenInfo getTokenInfo(final String authToken) throws IOException {
+		ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.TOKEN, null, authToken, null); 
+		JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
+		String json = new ObjectMapper().writeValueAsString(jsonNode);
+		return new ObjectMapper().readValue(json, TokenInfo.class);
 	}
 }

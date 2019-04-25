@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.cloud.cart.constant.CartConstant;
@@ -28,10 +27,10 @@ import com.hcl.cloud.cart.service.CartService;
  * @author baghelp
  */
 @RestController
-@RequestMapping("/shoppingcart")
 public class CartController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
+    
     /**
      * Autowired object of CartService variable to access service api.
      */

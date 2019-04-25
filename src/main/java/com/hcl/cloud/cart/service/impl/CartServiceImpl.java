@@ -215,10 +215,7 @@ public class CartServiceImpl implements CartService {
 	 */
 	private String getUserIdByToken(final String authToken) throws IOException, CustomException {
 		try {
-			ResponseEntity<Object> response = RestClient.getResponseFromMS(CartConstant.TOKEN, null, authToken, null); 
-			JsonNode jsonNode = new ObjectMapper().valueToTree(response.getBody());
-			String json = new ObjectMapper().writeValueAsString(jsonNode);
-			TokenInfo tokenInfo = new ObjectMapper().readValue(json, TokenInfo.class);
+			TokenInfo tokenInfo = EntityTransformerUtility.getTokenInfo(authToken);
 			if(tokenInfo != null && tokenInfo.getStatus() == 0) {
 				return tokenInfo.getUserId();
 			} else if(tokenInfo != null && tokenInfo.getStatus() == 401) {
