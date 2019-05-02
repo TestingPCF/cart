@@ -89,14 +89,14 @@
                 <configuration>
                     <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
                     <excludes>
-                        <exclude>**/com/hcl/cloud/cart/client/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/config/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/constant/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/domain/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/dto/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/exception/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/repository/**/*</exclude>
-                        <exclude>**/com/hcl/cloud/cart/util/**/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/client/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/config/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/constant/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/domain/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/dto/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/exception/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/repository/*</exclude>
+                        <exclude>**/com/hcl/cloud/cart/util/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
