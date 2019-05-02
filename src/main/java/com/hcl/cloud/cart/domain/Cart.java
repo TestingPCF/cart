@@ -1,14 +1,11 @@
 package com.hcl.cloud.cart.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Cart entity class to be persisted in the database.
@@ -17,7 +14,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "CART")
-public class Cart implements Serializable {
+public class Cart {
+    public Cart() {
+    }
+
+    public Cart(long id, String userId, BigDecimal subTotal, List<CartItem> cartItems) {
+        this.id = id;
+        this.userId = userId;
+        this.subTotal = subTotal;
+        this.cartItems = cartItems;
+    }
 
     /**
      * Serial version UID for the serialization of the object.
@@ -40,11 +46,15 @@ public class Cart implements Serializable {
     private String userId;
 
     /**
-     * cart_object field of the database table "cart".
-     * It's a string type value that stores the string in json format in the database.
+     * subTotal - represents the total amount of the shopping cart items.
      */
-    @Column(name = "CART_OBJECT", columnDefinition = "VARCHAR(4000)")
-    private String cartJson;
+    private BigDecimal subTotal;
+
+    /**
+     * cartItems - represents the list of the items added in the cart.
+     */
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 
     /**
      * Getter method for id.
@@ -78,20 +88,20 @@ public class Cart implements Serializable {
         this.userId = userId;
     }
 
-    /**
-     * Getter method for cartJson.
-     * @return
-     */
-    public String getCartJson() {
-        return cartJson;
+    public BigDecimal getSubTotal() {
+        return subTotal;
     }
 
-    /**
-     * Setter method for cartJson.
-     * @param cartJson
-     */
-    public void setCartJson(final String cartJson) {
-        this.cartJson = cartJson;
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
 }

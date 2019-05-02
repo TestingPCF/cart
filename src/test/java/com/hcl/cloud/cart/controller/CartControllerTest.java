@@ -62,12 +62,12 @@ public class CartControllerTest {
      * @throws CustomException 
      */
 
-    @Test
-    public final void testGetCartSuccess() throws CustomException, IOException {
-    	ShoppingCart shoppingCart = Mockito.mock(ShoppingCart.class);
-    	Mockito.when(cartService.getCartById(AUTH_TOKEN)).thenReturn(shoppingCart);
-        Assert.assertEquals(HttpStatus.OK, cartController.getCart(AUTH_TOKEN).getStatusCode());
-    }
+//    @Test
+//    public final void testGetCartSuccess() throws CustomException, IOException {
+//    	ShoppingCart shoppingCart = Mockito.mock(ShoppingCart.class);
+//    	Mockito.when(cartService.getCartById(AUTH_TOKEN)).thenReturn(shoppingCart);
+//        Assert.assertEquals(HttpStatus.OK, cartController.getCart(AUTH_TOKEN).getStatusCode());
+//    }
     
     /**
      * Test for failed case testGetCart.

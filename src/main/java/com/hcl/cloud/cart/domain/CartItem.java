@@ -3,17 +3,47 @@
  */
 package com.hcl.cloud.cart.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * CartItem entity that represents the cart-item properties.
  *
  * @author baghelp
  */
+@Entity
+@Table(name="cart_items")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartItem {
+
+    public CartItem() {
+    }
+
+    public CartItem(long cartItemId, String itemCode, int quantity, BigDecimal salePrice
+            , BigDecimal listPrice, String productName, Cart cart) {
+        this.cartItemId = cartItemId;
+        this.itemCode = itemCode;
+        this.quantity = quantity;
+        this.salePrice = salePrice;
+        this.listPrice = listPrice;
+        this.productName = productName;
+        this.cart = cart;
+    }
+
+    /**
+     * cartItemId - represents the id of the shopping cart.
+     */
+    @Id
+    @Column(name = "cart_item_id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "cart_item_sequence")
+    @SequenceGenerator(name = "cart_item_sequence",
+            sequenceName = "CART_ITEM_SEQ")
+    private long cartItemId;
 
     /**
      * itemCode - represents the code of the item.
@@ -39,6 +69,14 @@ public class CartItem {
      * productName.
      */
     private String productName;
+
+    /**
+     * cart.
+     */
+    @JoinColumn(name = "fk_cart")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Cart cart;
 
     /**
      * Getter method for the itemCode.
@@ -119,5 +157,20 @@ public class CartItem {
 	public void setProductName(final String productName) {
 		this.productName = productName;
 	}
-    
+
+    public long getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(long cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }

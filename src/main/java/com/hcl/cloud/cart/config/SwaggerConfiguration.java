@@ -16,13 +16,21 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
     @SuppressWarnings("deprecation")
-    public static final ApiInfo DEFAULT_CUSTOM_INFO = new ApiInfo("Cart Microservice API Documents",
-            "Cart Microservice API Documents", "1.0.0", "urn:tos", "baghelp@hcl.com|kumar_sanjay@hcl.com", "Cloud Foundry",
+    public static final ApiInfo DEFAULT_CUSTOM_INFO =
+            new ApiInfo("Cart Microservice API Documents",
+            "Cart Microservice API Documents", "1.0.0",
+                    "urn:tos",
+                    "baghelp@hcl.com|kumar_sanjay@hcl.com", "Cloud Foundry",
             "http://www.pivotal.org/licenses/LICENSE-2.0");
 
+    /**
+     * method postsApi.
+     * @return Docket object.
+     */
     @Bean
     public Docket postsApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(DEFAULT_CUSTOM_INFO);
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(DEFAULT_CUSTOM_INFO);
     }
 
 }

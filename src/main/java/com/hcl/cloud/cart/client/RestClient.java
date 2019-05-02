@@ -42,7 +42,7 @@ public class RestClient {
 
     /**
      * getResponseFromMS.
-     * @param serviceName Name of the service
+     * @param serviceName Name of the service.
      * @param object Object
      * @param authorization Authorization
      * @return ResponseEntity prepared response entity

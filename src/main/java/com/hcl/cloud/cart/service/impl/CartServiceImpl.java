@@ -2,6 +2,7 @@ package com.hcl.cloud.cart.service.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.naming.ServiceUnavailableException;
 
@@ -57,28 +58,27 @@ public class CartServiceImpl implements CartService {
 		boolean notPreset = false;
 		validate(cartDto);
 		String userId = getUserIdByToken(authToken);
-		Cart cart = getCart(authToken);
-		ShoppingCart shoppingCart = null;
+		Cart cart = getCart(userId);
 		if (cart != null) {
-			shoppingCart = EntityTransformerUtility.convertJsonToJavaObject(cart.getCartJson());
-			setCartQtyToDto(cartDto, shoppingCart);
-		} else {
+			setCartQtyToDto(cartDto, cart);
+		}
+
+		if (cart == null) {
 			cart = new Cart();
 			cart.setUserId(userId);
 		}
 		ProductResponse productResponse = getProductDetails(cartDto, authToken);
 		setPrices(productResponse, cartDto);
 
-		if (shoppingCart == null) {
-			shoppingCart = new ShoppingCart();
-			shoppingCart.setUserId(userId);
-			shoppingCart.getCartItems().add(transformCartItem(cartDto));
-
+		if (cart != null && (cart.getCartItems() == null || cart.getCartItems().isEmpty())) {
+			CartItem item = transformCartItem(cartDto);
+			item.setCart(cart);
+			cart.getCartItems().add(item);
 			LOG.info("Item adedd successfully in the shopping cart.");
 			notPreset = true;
-
-		} else if (!shoppingCart.getCartItems().isEmpty()) {
-			for (CartItem cartItem : shoppingCart.getCartItems()) {
+		}
+		if (!cart.getCartItems().isEmpty() && !notPreset) {
+			for (CartItem cartItem : cart.getCartItems()) {
 				if (cartItem.getItemCode().equalsIgnoreCase(cartDto.getSkuCode())) {
 					int qty = cartItem.getQuantity() + cartDto.getQuantity();
 					cartItem.setQuantity(qty);
@@ -87,11 +87,12 @@ public class CartServiceImpl implements CartService {
 			}
 		}
 		if (!notPreset) {
-			shoppingCart.getCartItems().add(transformCartItem(cartDto));
+			CartItem item = transformCartItem(cartDto);
+			item.setCart(cart);
+			cart.getCartItems().add(item);
 		}
+		cart.setSubTotal(calculateSubtotal(cart.getCartItems()));
 		try {
-			String cartJson = EntityTransformerUtility.convertJavaToJsonString(shoppingCart);
-			cart.setCartJson(cartJson);
 			Cart persistCart = cartRepository.save(cart);
 			if (persistCart != null) {
 				LOG.info("Item persisted successfully into the database.");
@@ -133,25 +134,20 @@ public class CartServiceImpl implements CartService {
 	 * @throws CustomException 
 	 */
 	@Override
-	public ShoppingCart getCartById(final String authToken) throws CustomException, IOException {
-		Cart cart = getCart(authToken);
-		ShoppingCart shoppingCart = null;
-		if (cart != null) {
-			shoppingCart = EntityTransformerUtility.convertJsonToJavaObject(cart.getCartJson());
-		}
-		return shoppingCart;
+	public Cart getCartById(final String authToken) throws CustomException, IOException {
+		String userId = getUserIdByToken(authToken);
+		Cart cart = getCart(userId);
+		return cart;
 
 	}
 
 	/**
 	 * Private method to get cart details by userId.
-	 * @param authToken
 	 * @return cart object Cart type.
 	 * @throws IOException 
 	 * @throws CustomException 
 	 */
-	private Cart getCart(final String authToken) throws CustomException, IOException {
-		String userId = getUserIdByToken(authToken);
+	private Cart getCart(final String userId) throws CustomException, IOException {
 		return cartRepository.findByUserId(userId);
 	}
 
@@ -229,7 +225,7 @@ public class CartServiceImpl implements CartService {
 	}
 	
 	/**
-	 * @param cartDto.
+	 * @param cartDto
 	 * @return cartItem {@link CartItem} 
 	 */
 	private CartItem transformCartItem(final CartDto cartDto) {
@@ -245,14 +241,27 @@ public class CartServiceImpl implements CartService {
 	/**
 	 * This method to set current quantity in cart to dto for inventory check.
 	 * @param cartDto {@link CartDto}
-	 * @param shoppingCart {@link ShoppingCart}
+	 * @param cart {@link ShoppingCart}
 	 */
-	private void setCartQtyToDto(final CartDto cartDto, final ShoppingCart shoppingCart) {
-		for(CartItem cartItem : shoppingCart.getCartItems()) {
+	private void setCartQtyToDto(final CartDto cartDto, final Cart cart) {
+		for(CartItem cartItem : cart.getCartItems()) {
 			if(cartItem.getItemCode().equalsIgnoreCase(cartDto.getSkuCode())) {
 				cartDto.setQuantityInCart(cartItem.getQuantity());
 			}
 		}
 		
+	}
+
+	/**
+	 * Method to calculate the total amount of the items added in the shopping cart.
+	 * @param cartItems of cartItems
+	 * @return
+	 */
+	private BigDecimal calculateSubtotal(List<CartItem> cartItems) {
+		BigDecimal total = new BigDecimal(0.00);
+		for(CartItem cartItem : cartItems) {
+			total = total.add(cartItem.getSalePrice().multiply(new BigDecimal(cartItem.getQuantity())));
+		}
+		return total;
 	}
 }
