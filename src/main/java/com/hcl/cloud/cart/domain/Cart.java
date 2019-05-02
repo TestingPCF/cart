@@ -54,7 +54,7 @@ public class Cart {
      * cartItems - represents the list of the items added in the cart.
      */
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
 
     /**
      * Getter method for id.
