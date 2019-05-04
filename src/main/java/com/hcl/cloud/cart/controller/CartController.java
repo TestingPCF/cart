@@ -116,5 +116,53 @@ public class CartController {
         LOG.info("Item retrieved successfully into the cart.");
         return new ResponseEntity<ResponseStatus<?>>(response, response.getStatus().status());
     }
+    
+    /**
+     * Update item into cart
+     * @param authToken
+     * @param cartDto
+     * @return
+     */
+    
+    @PutMapping
+    public ResponseEntity<ResponseStatus<String>> updateItemInCart(
+            @RequestHeader(value = "accessToken", required = true)
+                    String authToken, @RequestBody CartDto cartDto) {
+        ResponseStatus<String> response = null;
+        Status messageStatus;
+        try {
+            boolean status = cartService.updateItemInCart(authToken, cartDto);
+            if (status) {
+                messageStatus = new Status(HttpStatus.CREATED,
+                        CartConstant.RETRIEVE_SUCCESS);
+                response = new ResponseStatus.Builder<String>(messageStatus)
+                        .build();
+                LOG.info("Item updated successfully into the cart.");
+            } else {
+                messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
+                        CartConstant.FAIL);
+                response = new ResponseStatus.Builder<String>(messageStatus)
+                        .build();
+                LOG.info("Item cannot be updated successfully into the cart.");
+            }
+        }catch (BadRequestException ex) {
+                messageStatus = new Status(HttpStatus.BAD_REQUEST, ex.getMessage());
+                response = new ResponseStatus.Builder<String>(messageStatus).build();
+                LOG.error("Item cannot be updated into the cart. ", ex.getMessage());
+            } catch (CustomException ex) {
+                messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
+                response = new ResponseStatus.Builder<String>(messageStatus).build();
+                LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
+            }  catch (ServiceUnavailableException ex) {
+                messageStatus = new Status(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage());
+                response = new ResponseStatus.Builder<String>(messageStatus).build();
+                LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
+            } catch (Exception ex) {
+                messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+                response = new ResponseStatus.Builder<String>(messageStatus).build();
+                LOG.error("Item cannot be updated into the cart. ", ex.getMessage());
+            }
+            return new ResponseEntity<ResponseStatus<String>>(response, response.getStatus().status());
+    }
 
 }

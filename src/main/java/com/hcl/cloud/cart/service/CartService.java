@@ -22,5 +22,14 @@ public interface CartService {
      * @return
      */
     Cart getCartById(String authToken) throws CustomException, IOException;
+    
+    /**
+     * This method is used to update the cart details.
+     * @param authToken
+     * @param cartDto
+     * @return
+     * @throws Exception
+     */
 
+    boolean updateItemInCart(String authToken, CartDto cartDto) throws Exception;
 }
