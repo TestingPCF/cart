@@ -9,6 +9,6 @@ applications:
       - log-drain
       - newrelic
     routes:
-    - route: cart.apps.cnpsandbox.dryice01.in.hclcnlabs.com
+    - route: cart.apps.sandbox.cflab01.in.hclcnlabs.com
     
     
