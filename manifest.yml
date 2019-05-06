@@ -10,5 +10,4 @@ applications:
       - newrelic
     routes:
     - route: cart.apps.sandbox.cflab01.in.hclcnlabs.com
-    
-    
+      

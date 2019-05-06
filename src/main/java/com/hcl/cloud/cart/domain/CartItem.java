@@ -16,7 +16,7 @@ import java.util.List;
  * @author baghelp
  */
 @Entity
-@Table(name="cart_items")
+@Table(name = "cart_items")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartItem {
 
@@ -64,7 +64,7 @@ public class CartItem {
      * listrice - represents the list price of the item.
      */
     private BigDecimal listPrice = new BigDecimal(0.00);
-    
+
     /**
      * productName.
      */
@@ -80,6 +80,7 @@ public class CartItem {
 
     /**
      * Getter method for the itemCode.
+     *
      * @return
      */
     public String getItemCode() {
@@ -88,6 +89,7 @@ public class CartItem {
 
     /**
      * Setter method for the itemCode.
+     *
      * @param itemCode
      */
     public void setItemCode(final String itemCode) {
@@ -96,6 +98,7 @@ public class CartItem {
 
     /**
      * Getter method for the quantity.
+     *
      * @return
      */
     public int getQuantity() {
@@ -104,6 +107,7 @@ public class CartItem {
 
     /**
      * Setter method for the quantity.
+     *
      * @param quantity
      */
     public void setQuantity(final int quantity) {
@@ -112,6 +116,7 @@ public class CartItem {
 
     /**
      * Getter method for the salePrice.
+     *
      * @return
      */
     public BigDecimal getSalePrice() {
@@ -120,6 +125,7 @@ public class CartItem {
 
     /**
      * Setter method for the salePrice.
+     *
      * @param salePrice
      */
     public void setSalePrice(final BigDecimal salePrice) {
@@ -128,6 +134,7 @@ public class CartItem {
 
     /**
      * Getter method for the listPrice.
+     *
      * @return
      */
     public BigDecimal getListPrice() {
@@ -136,6 +143,7 @@ public class CartItem {
 
     /**
      * Setter method for the listPrice.
+     *
      * @param listPrice
      */
     public void setListPrice(final BigDecimal listPrice) {
@@ -144,19 +152,21 @@ public class CartItem {
 
     /**
      * Getter method for the productName.
+     *
      * @return
      */
-	public String getProductName() {
-		return productName;
-	}
+    public String getProductName() {
+        return productName;
+    }
 
-	/**
+    /**
      * Setter method for the productName.
+     *
      * @param productName
      */
-	public void setProductName(final String productName) {
-		this.productName = productName;
-	}
+    public void setProductName(final String productName) {
+        this.productName = productName;
+    }
 
     public long getCartItemId() {
         return cartItemId;
