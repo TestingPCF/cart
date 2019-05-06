@@ -78,7 +78,7 @@ public class CartController {
             messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
             response = new ResponseStatus.Builder<String>(messageStatus).build();
             LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
-        }  catch (Exception ex) {
+        }   catch (Exception ex) {
             messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
             response = new ResponseStatus.Builder<String>(messageStatus).build();
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());

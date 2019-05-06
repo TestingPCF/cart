@@ -168,7 +168,7 @@ public class CartControllerTest {
     public final void testAddItemInCartWhenServiceUnavailableExceptionOccur() throws Exception {
     	CartDto cartDto = Mockito.mock(CartDto.class);
     	Mockito.when(cartService.addItemInCart(AUTH_TOKEN, cartDto)).thenThrow(ServiceUnavailableException.class);
-    	Assert.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, cartController.addItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
+    	Assert.assertEquals(HttpStatus.UNAUTHORIZED, cartController.addItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
     }
     
     /**
@@ -179,7 +179,7 @@ public class CartControllerTest {
     public final void testupdateItemInCart() throws Exception {
         CartDto cartDto = Mockito.mock(CartDto.class);
         Mockito.when(cartService.updateItemInCart(AUTH_TOKEN, cartDto)).thenThrow(ServiceUnavailableException.class);
-        Assert.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, cartController.updateItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
+        Assert.assertEquals(HttpStatus.UNAUTHORIZED, cartController.updateItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
     }
     
     
@@ -193,6 +193,6 @@ public class CartControllerTest {
         CartDto cartDto = Mockito.mock(CartDto.class);
         cartDto = null;
         Mockito.when(cartService.updateItemInCart(AUTH_TOKEN, cartDto)).thenThrow(ServiceUnavailableException.class);
-        Assert.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, cartController.updateItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
+        Assert.assertEquals(HttpStatus.UNAUTHORIZED, cartController.updateItemInCart(AUTH_TOKEN, cartDto).getStatusCode());
     }
 }
