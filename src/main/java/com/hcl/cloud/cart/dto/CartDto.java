@@ -21,12 +21,12 @@ public class CartDto {
     /**
      * salePrice - represents the sale price of the item.
      */
-    private BigDecimal salePrice = new BigDecimal(0.00);
+    private BigDecimal salePrice = BigDecimal.ZERO;
 
     /**
      * listrice - represents the list price of the item.
      */
-    private BigDecimal listPrice = new BigDecimal(0.00);
+    private BigDecimal listPrice = BigDecimal.ZERO;
 
     /**
      * quantityInCart.

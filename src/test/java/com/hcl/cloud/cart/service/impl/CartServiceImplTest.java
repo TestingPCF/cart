@@ -67,12 +67,12 @@ public class CartServiceImplTest {
     /**
      * LIST_PRICE.
      */
-    private final static BigDecimal LIST_PRICE = new BigDecimal(12.00);
+    private final static BigDecimal LIST_PRICE = BigDecimal.TEN;
 
     /**
      * SALE_PRICE.
      */
-    private final static BigDecimal SALE_PRICE = new BigDecimal(10.00);
+    private final static BigDecimal SALE_PRICE = BigDecimal.ONE;
 
     /**
      * cartServiceImpl Mock.

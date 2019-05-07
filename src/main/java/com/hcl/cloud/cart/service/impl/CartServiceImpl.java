@@ -283,7 +283,7 @@ public class CartServiceImpl implements CartService {
      * @return
      */
     private BigDecimal calculateSubtotal(List<CartItem> cartItems) {
-        BigDecimal total = new BigDecimal(0.00);
+        BigDecimal total = BigDecimal.ZERO;
         for (CartItem cartItem : cartItems) {
             total = total.add(cartItem.getSalePrice().multiply(new BigDecimal(cartItem.getQuantity())));
         }
