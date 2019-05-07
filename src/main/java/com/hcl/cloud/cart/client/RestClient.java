@@ -58,7 +58,6 @@ public class RestClient {
                       final String authorization,
                       final String skuCode)
             throws HttpClientErrorException {
-        //try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -90,17 +89,17 @@ public class RestClient {
                             Object.class);
                  return response;
                     default:
-                        return new ResponseEntity<Object>(HttpStatus
+                        return new ResponseEntity<>(HttpStatus
                                 .INTERNAL_SERVER_ERROR);
 
             }
     }
 
     /**
-     * Default method to make it a non-utility class.
+     * add Method Method.
      */
-    public final void defaultMethod() {
-        System.out.println("RestClient");
+    public final int printApplication(final int a, final int b) {
+        return a + b;
     }
 
 }

@@ -35,7 +35,11 @@ public class CartController {
      */
     private static final Logger LOG =
             LoggerFactory.getLogger(CartController.class);
-    
+    /**
+     * UNAUTHORIZED_ERROR_MESSAGE.
+     */
+    private static final String UNAUTHORIZED_ERROR_MESSAGE = "UNAUTHORIZED User or Invalid token. ";
+
     /**
      * Autowired object of CartService variable to access
      * service api.
@@ -79,7 +83,7 @@ public class CartController {
         } catch (CustomException | ServiceUnavailableException ex) {
             messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
             response = new ResponseStatus.Builder<String>(messageStatus).build();
-            LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
+            LOG.error(UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
         }   catch (Exception ex) {
             messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
             response = new ResponseStatus.Builder<String>(messageStatus).build();
@@ -113,7 +117,7 @@ public class CartController {
 		} catch (CustomException | IOException ex) {
 			 messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
             response = new ResponseStatus.Builder<Cart>(messageStatus).build();
-            LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
+            LOG.error(UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
 		} catch(Exception ex) {
     messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
                      ex.getMessage());
@@ -160,7 +164,7 @@ public class CartController {
             } catch (CustomException | ServiceUnavailableException ex) {
                 messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
                 response = new ResponseStatus.Builder<String>(messageStatus).build();
-                LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
+                LOG.error(UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
             }   catch (Exception ex) {
                 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
                 response = new ResponseStatus.Builder<String>(messageStatus).build();

@@ -19,10 +19,10 @@ public class CartApplication {
     }
 
     /**
-     * Print Method.
+     * add Method Method.
      */
-    public final void printApplication() {
-        System.out.println("Application started::");
+    public final int printApplication(final int a, final int b) {
+        return a + b;
     }
 
 }
