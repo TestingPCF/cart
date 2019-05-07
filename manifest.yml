@@ -5,7 +5,7 @@ applications:
     memory: 1G
     instances: 1
     services:
-      - dbService
+      - cartDB
       - log-drain
       - newrelic
       - cloud-config-server
