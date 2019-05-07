@@ -30,7 +30,9 @@ import com.hcl.cloud.cart.service.CartService;
  */
 @RestController
 public class CartController {
-
+    /**
+     * Logger.
+     */
     private static final Logger LOG =
             LoggerFactory.getLogger(CartController.class);
     
@@ -92,14 +94,18 @@ public class CartController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<ResponseStatus<?>> getCart(@RequestHeader(value = "accessToken", required = true) String authToken) {
+    public ResponseEntity<ResponseStatus<?>> getCart(
+            @RequestHeader(value = "accessToken", required = true)
+                    String authToken) {
         ResponseStatus<Cart> response = null;
         Status messageStatus = null;
 		try {
 			Cart cart = cartService.getCartById(authToken);
 			if(cart != null) {
-				Status status = new Status(HttpStatus.OK, CartConstant.RETRIEVE_SUCCESS);
-		        response = new ResponseStatus.Builder<Cart>(status).setEntity(cart).build();
+    Status status = new Status(HttpStatus.OK, CartConstant
+                        .RETRIEVE_SUCCESS);
+          response = new ResponseStatus.Builder<Cart>(status).setEntity(cart)
+                        .build();
 			} else {
 				Status status = new Status(HttpStatus.OK, CartConstant.CART_EMPTY);
 		        response = new ResponseStatus.Builder<Cart>(status).build();
@@ -109,12 +115,14 @@ public class CartController {
             response = new ResponseStatus.Builder<Cart>(messageStatus).build();
             LOG.error("UNAUTHORIZED User or Invalid token. ", ex.getMessage());
 		} catch(Exception ex) {
-			 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
+                     ex.getMessage());
             response = new ResponseStatus.Builder<Cart>(messageStatus).build();
             LOG.error(ex.getMessage());
 		}
         LOG.info("Item retrieved successfully into the cart.");
-        return new ResponseEntity<ResponseStatus<?>>(response, response.getStatus().status());
+        return new ResponseEntity<ResponseStatus<?>>(response, response
+                .getStatus().status());
     }
     
     /**

@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcl.cloud.cart.client.RestClient;
 import com.hcl.cloud.cart.constant.CartConstant;
 import com.hcl.cloud.cart.controller.CartController;
-import com.hcl.cloud.cart.domain.ShoppingCart;
 import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.dto.InventoryResponse;
 import com.hcl.cloud.cart.dto.ProductResponse;
@@ -47,29 +46,7 @@ public class EntityTransformerUtility {
 		}
 		return jsonString;
 	}
-	
-	/**
-	 * Convert Json to Java object.
-	 * @param jsonString
-	 * @return Cart
-	 */
-	public static ShoppingCart convertJsonToJavaObject(final String jsonString) {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		ShoppingCart shoppingCart = null;
-		try {
-			shoppingCart = objectMapper.readValue(jsonString, ShoppingCart.class);
-			LOG.info("succesfully convertJsonToJavaObject.");
-		} catch (JsonParseException ex) {
-			LOG.error(ex.getMessage());
-		} catch (JsonMappingException ex) {
-			LOG.error(ex.getMessage());
-		} catch (IOException ex) {
-			LOG.error(ex.getMessage());
-		}
-		return shoppingCart;
-	}
-	
+
 	/**
 	 * @param authToken
 	 * @return

@@ -16,6 +16,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
     @SuppressWarnings("deprecation")
+/**
+     * ApiInfo method.
+     */
     public static final ApiInfo DEFAULT_CUSTOM_INFO =
             new ApiInfo("Cart Microservice API Documents",
             "Cart Microservice API Documents", "1.0.0",

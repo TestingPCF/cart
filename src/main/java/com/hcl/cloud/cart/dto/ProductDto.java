@@ -1,75 +1,154 @@
 package com.hcl.cloud.cart.dto;
 
+/**
+ * ProductDto class.
+ * @author kumar_sanjay.
+ */
 public class ProductDto {
 
-	private String skuCode;
+ /**
+  * skuCode - skuCode.
+  */
+ private String skuCode;
 
-	private String productName;
+ /**
+  * productName - productName.
+  */
+ private String productName;
 
-	private double salePrice;
+ /**
+  * salePrice - salePrice.
+  */
+ private double salePrice;
 
-	private double listPrice;
+ /**
+  * listPrice - listPrice.
+  */
+ private double listPrice;
 
-	private String productDescrition;
+ /**
+  * productDescrition - productDescrition.
+  */
+ private String productDescrition;
 
-	private String category;
+ /**
+  * category - category.
+  */
+ private String category;
 
-	private boolean is_deleted;
+ /**
+  * isDeleted - isDeleted.
+  */
+ private boolean isDeleted;
 
-	public String getSkuCode() {
-		return skuCode;
+ /**
+  * Getter method for skuCode.
+  * @return skuCode skuCode
+  */
+ public String getSkuCode() {
+  return skuCode;
+ }
+
+ /**
+  * Setter method for skuCode.
+  * @param skuCodeParam skuCodeParam.
+  */
+ public void setSkuCode(String skuCodeParam) {
+  this.skuCode = skuCodeParam;
+ }
+
+ /**
+  * Getter method for productName.
+  * @return productName productName.
+  */
+ public String getProductName() {
+  return productName;
+ }
+
+ /**
+  * Setter method for productName.
+  * @param productNameParam productNameParam.
+  */
+ public void setProductName(String productNameParam) {
+  this.productName = productNameParam;
+ }
+
+ /**
+  * Getter method for salePrice.
+  * @return salePrice salePrice.
+  */
+ public double getSalePrice() {
+  return salePrice;
+ }
+
+ /**
+  * Setter method for salePrice.
+  * @param salePriceParam salePriceParam.
+  */
+ public void setSalePrice(double salePriceParam) {
+  this.salePrice = salePriceParam;
+ }
+
+ /**
+  * Getter method for listPrice.
+  * @return listPrice listPrice.
+  */
+ public double getListPrice() {
+  return listPrice;
+ }
+
+ /**
+  * Setter method for listPrice.
+  * @param listPriceParam listPriceParam.
+  */
+ public void setListPrice(double listPriceParam) {
+  this.listPrice = listPriceParam;
+ }
+
+ /**
+  * Getter method for productDescrition.
+  * @return productDescrition productDescrition
+  */
+ public String getProductDescrition() {
+  return productDescrition;
+ }
+
+ /**
+  * Setter method for productDescrition.
+  * @param productDescritionParam productDescritionParam.
+  */
+ public void setProductDescrition(String productDescritionParam) {
+  this.productDescrition = productDescritionParam;
+ }
+
+ /**
+  * Getter method for category.
+  * @return category category.
+  */
+ public String getCategory() {
+  return category;
+ }
+
+ /**
+  * Setter method for category.
+  * @param categoryParam categoryParam.
+  */
+ public void setCategory(String categoryParam) {
+  this.category = categoryParam;
+ }
+
+	/**
+	 * Getter method for isDeleted
+	 * @return isDeleted isDeleted
+	 */
+	public boolean isDeleted() {
+		return isDeleted;
 	}
-
-	public void setSkuCode(String skuCode) {
-		this.skuCode = skuCode;
+	/**
+	 * Setter method for isDeleted
+	 * @param deletedParam deletedParam
+	 */
+	public void setDeleted(boolean deletedParam) {
+		isDeleted = deletedParam;
 	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public double getSalePrice() {
-		return salePrice;
-	}
-
-	public void setSalePrice(double salePrice) {
-		this.salePrice = salePrice;
-	}
-
-	public double getListPrice() {
-		return listPrice;
-	}
-
-	public void setListPrice(double listPrice) {
-		this.listPrice = listPrice;
-	}
-
-	public String getProductDescrition() {
-		return productDescrition;
-	}
-
-	public void setProductDescrition(String productDescrition) {
-		this.productDescrition = productDescrition;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public boolean isIs_deleted() {
-		return is_deleted;
-	}
-
-	public void setIs_deleted(boolean is_deleted) {
-		this.is_deleted = is_deleted;
-	}
-
 }

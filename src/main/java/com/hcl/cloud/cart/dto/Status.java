@@ -8,67 +8,67 @@ import org.springframework.http.HttpStatus;
  */
 public class Status {
 
-	/**
-	 * Http Status.
-	 */
-	private HttpStatus status;
+ /**
+  * Http Status.
+  */
+ private HttpStatus status;
 
-	/**
-	 * Status Message.
-	 */
-	private String message;
+ /**
+  * Status Message.
+  */
+ private String message;
 
-	/**
-	 * Default Constructor.
-	 */
-	public Status() {
-		// TODO Auto-generated method stub
-	}
+ /**
+  * Default Constructor.
+  */
+ public Status() {
+  // TODO Auto-generated method stub
+ }
 
-	/**
-	 * fully parameterized constructor.
-	 * @param status
-	 * @param message
-	 */
-	public Status(final HttpStatus status, final String message) {
-		super();
-		this.status = status;
-		this.message = message;
-	}
+ /**
+  * fully parameterized constructor.
+  * @param statusParam statusParam
+  * @param messageParam messageParam
+  */
+ public Status(final HttpStatus statusParam, final String messageParam) {
+  super();
+  this.status = statusParam;
+  this.message = messageParam;
+ }
 
-	/**
-	 * @return Status code..
-	 */
-	public int getCode() {
-		return status().value();
-	}
+ /**
+  * @return Status code..
+  */
+ public int getCode() {
+  return status().value();
+ }
 
-	/**
-	 * @return the status
-	 */
-	public HttpStatus status() {
-		return status;
-	}
+ /**
+  * @return the status
+  */
+ public HttpStatus status() {
+  return status;
+ }
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(final HttpStatus status) {
-		this.status = status;
-	}
+ /**
+  * @param statusParam the status to set.
+  */
+ public void setStatus(final HttpStatus statusParam) {
+  this.status = statusParam;
+ }
 
-	/**
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
-	}
+ /**
+  * @return the message
+  */
+ public String getMessage() {
+  return message;
+ }
 
-	/**
-	 * @param message the message to set
-	 */
-	public void setMessage(final String message) {
-		this.message = message;
-	}
+ /**
+  * @param messageParam the message to set
+  */
+ public void setMessage(final String messageParam) {
+  this.message = messageParam;
+ }
 
 }

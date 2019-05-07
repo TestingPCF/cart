@@ -22,17 +22,20 @@ public class RestClient {
     /**
      * inventoryUri.
      */
-    public static String inventoryUri = "http://inventory.apps.cnpsandbox.dryice01.in.hclcnlabs.com/";
+    private static String inventoryUri = "http://inventory.apps.cnpsandbox."
+            + "dryice01.in.hclcnlabs.com/";
 
     /**
      * productUri.
      */
-    public static String productUri = "http://products.apps.cnpsandbox.dryice01.in.hclcnlabs.com/";
+    private static String productUri = "http://products.apps.cnpsandbox"
+            + ".dryice01.in.hclcnlabs.com/";
 
     /**
      * uaa.
      */
-    public static String uaa = "http://uaa.apps.cnpsandbox.dryice01.in.hclcnlabs.com/uaa/tokenInfo";
+    private static String uaa = "http://uaa.apps.cnpsandbox.dryice01.in"
+            + ".hclcnlabs.com/uaa/tokenInfo";
     
     /**
      * logger.
@@ -45,12 +48,16 @@ public class RestClient {
      * @param serviceName Name of the service.
      * @param object Object
      * @param authorization Authorization
+     * @param skuCode skuCode
      * @return ResponseEntity prepared response entity
+     * @throws HttpClientErrorException exception
      */
-    public static ResponseEntity<Object> getResponseFromMS(
-            final String serviceName,
-            final Object object,
-           final String authorization, final String skuCode) throws HttpClientErrorException{
+    public static ResponseEntity<Object>
+    getResponseFromMS(final String serviceName,
+                      final Object object,
+                      final String authorization,
+                      final String skuCode)
+            throws HttpClientErrorException {
         //try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -61,27 +68,27 @@ public class RestClient {
             ResponseEntity<Object> response = null;
             switch (serviceName) {
                 case CartConstant.PRODUCT:
-                	LOGGER.info("Call API of product MS from cart");
+                 LOGGER.info("Call API of product MS from cart");
                    response = restTemplate.exchange(productUri + skuCode,
                                     HttpMethod.GET,
                                     entity,
                                     Object.class);
                     return response;
                 case CartConstant.INVERNTORY:
-                	LOGGER.info("Call API of inventory MS from cart");
-                	response = restTemplate.exchange(inventoryUri+skuCode,
+                 LOGGER.info("Call API of inventory MS from cart");
+                 response = restTemplate.exchange(inventoryUri + skuCode,
                             HttpMethod.GET,
                             entity,
                             Object.class);
-                	return response;
-                	
+                 return response;
+                 
                 case CartConstant.TOKEN:
-                	LOGGER.info("Call API of Token MS from cart");
-                	response = restTemplate.exchange(uaa,
+                 LOGGER.info("Call API of Token MS from cart");
+                 response = restTemplate.exchange(uaa,
                             HttpMethod.GET,
                             entity,
                             Object.class);
-                	return response;
+                 return response;
                     default:
                         return new ResponseEntity<Object>(HttpStatus
                                 .INTERNAL_SERVER_ERROR);
@@ -89,5 +96,11 @@ public class RestClient {
             }
     }
 
-   
+    /**
+     * Default method to make it a non-utility class.
+     */
+    public final void defaultMethod() {
+        System.out.println("RestClient");
+    }
+
 }

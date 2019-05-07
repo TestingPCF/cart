@@ -19,7 +19,6 @@ import com.hcl.cloud.cart.constant.CartConstant;
 import com.hcl.cloud.cart.controller.CartController;
 import com.hcl.cloud.cart.domain.Cart;
 import com.hcl.cloud.cart.domain.CartItem;
-import com.hcl.cloud.cart.domain.ShoppingCart;
 import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.dto.InventoryResponse;
 import com.hcl.cloud.cart.dto.ProductDto;
@@ -33,31 +32,33 @@ import com.hcl.cloud.cart.util.EntityTransformerUtility;
 
 /**
  * CartServiceImpl - implementation class for the cart service.
- * 
  * @author baghelp
  */
 @Service
 public class CartServiceImpl implements CartService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
+    /**
+     * Logger object.
+     */
+    private static final Logger LOG =
+            LoggerFactory.getLogger(CartController.class);
 
     /**
-     * Autowired object of the CartRepository to be able to access the members of
-     * the JPA repository.
+     * Autowired object of the CartRepository to be able
+     * to access the members of the JPA repository.
      */
     @Autowired
     private CartRepository cartRepository;
 
     /**
      * Method to add item in the cart.
-     * 
-     * @param authToken
-     * @param cartDto
-     * @return
+     * @param authToken authToken
+     * @param cartDto cartDto
+     * @return boolean value.
      * @throws Exception
      */
     @Override
-    public boolean addItemInCart(final String authToken, final CartDto cartDto) throws Exception {
+    public boolean addItemInCart(final String authToken,
+                                 final CartDto cartDto) throws Exception {
         boolean notPreset = false;
         validate(cartDto);
         String userId = getUserIdByToken(authToken);
@@ -70,10 +71,12 @@ public class CartServiceImpl implements CartService {
             cart = new Cart();
             cart.setUserId(userId);
         }
-        ProductResponse productResponse = getProductDetails(cartDto, authToken);
+        ProductResponse productResponse =
+                getProductDetails(cartDto, authToken);
         setPrices(productResponse, cartDto);
 
-        if (cart != null && (cart.getCartItems() == null || cart.getCartItems().isEmpty())) {
+        if (cart != null && (cart.getCartItems() == null
+                || cart.getCartItems().isEmpty())) {
             CartItem item = transformCartItem(cartDto);
             item.setCart(cart);
             cart.getCartItems().add(item);
@@ -82,7 +85,8 @@ public class CartServiceImpl implements CartService {
         }
         if (!cart.getCartItems().isEmpty() && !notPreset) {
             for (CartItem cartItem : cart.getCartItems()) {
-                if (cartItem.getItemCode().equalsIgnoreCase(cartDto.getSkuCode())) {
+                if (cartItem.getItemCode()
+                        .equalsIgnoreCase(cartDto.getSkuCode())) {
                     int qty = cartItem.getQuantity() + cartDto.getQuantity();
                     cartItem.setQuantity(qty);
                     notPreset = true;
@@ -114,9 +118,8 @@ public class CartServiceImpl implements CartService {
 
     /**
      * Private method to validate the cartDto object attributes.
-     * 
-     * @param cartDto
-     * @throws Exception
+     * @param cartDto cartDto
+     * @throws Exception Exception
      */
     private void validate(final CartDto cartDto) throws BadRequestException {
         if (cartDto.getSkuCode() == null || "".equals(cartDto.getSkuCode())) {
@@ -133,7 +136,7 @@ public class CartServiceImpl implements CartService {
      * Method to retrieve the details of the shopping cart by userId.
      * 
      * @param authToken string type.
-     * @return shoppingCart {@link ShoppingCart}
+     * @return cart {@link Cart}
      * @throws IOException
      * @throws CustomException
      */
@@ -262,7 +265,7 @@ public class CartServiceImpl implements CartService {
      * This method to set current quantity in cart to dto for inventory check.
      * 
      * @param cartDto {@link CartDto}
-     * @param cart    {@link ShoppingCart}
+     * @param cart    {@link Cart}
      */
     private void setCartQtyToDto(final CartDto cartDto, final Cart cart) {
         for (CartItem cartItem : cart.getCartItems()) {

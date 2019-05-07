@@ -6,9 +6,17 @@ package com.hcl.cloud.cart.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 
 /**
  * CartItem entity that represents the cart-item properties.
@@ -19,26 +27,41 @@ import java.util.List;
 @Table(name = "cart_items")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartItem {
-
+    /**
+     * DEfautl constructor.
+     */
     public CartItem() {
     }
 
-    public CartItem(long cartItemId, String itemCode, int quantity, BigDecimal salePrice
-            , BigDecimal listPrice, String productName, Cart cart) {
-        this.cartItemId = cartItemId;
-        this.itemCode = itemCode;
-        this.quantity = quantity;
-        this.salePrice = salePrice;
-        this.listPrice = listPrice;
-        this.productName = productName;
-        this.cart = cart;
+    /**
+     * Parameterized constructor.
+     * @param cartItemIdParam cartItemId
+     * @param itemCodeParam itemCode
+     * @param quantityParam quantity
+     * @param salePriceParam salePrice
+     * @param listPriceParam listPrice
+     * @param productNameParam productName
+     * @param cartParam cart
+     */
+    public CartItem(long cartItemIdParam, String itemCodeParam,
+                    int quantityParam, BigDecimal salePriceParam,
+                    BigDecimal listPriceParam, String productNameParam,
+                    Cart cartParam) {
+        this.cartItemId = cartItemIdParam;
+        this.itemCode = itemCodeParam;
+        this.quantity = quantityParam;
+        this.salePrice = salePriceParam;
+        this.listPrice = listPriceParam;
+        this.productName = productNameParam;
+        this.cart = cartParam;
     }
 
     /**
      * cartItemId - represents the id of the shopping cart.
      */
     @Id
-    @Column(name = "cart_item_id", unique = true, nullable = false)
+    @Column(name = "cart_item_id", unique = true,
+            nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "cart_item_sequence")
     @SequenceGenerator(name = "cart_item_sequence",
@@ -58,12 +81,12 @@ public class CartItem {
     /**
      * salePrice - represents the sale price of the item.
      */
-    private BigDecimal salePrice = new BigDecimal(0.00);
+    private BigDecimal salePrice = BigDecimal.ZERO;
 
     /**
      * listrice - represents the list price of the item.
      */
-    private BigDecimal listPrice = new BigDecimal(0.00);
+    private BigDecimal listPrice = BigDecimal.ZERO;
 
     /**
      * productName.
@@ -80,8 +103,7 @@ public class CartItem {
 
     /**
      * Getter method for the itemCode.
-     *
-     * @return
+     * @return itemCode itemCode.
      */
     public String getItemCode() {
         return itemCode;
@@ -90,16 +112,16 @@ public class CartItem {
     /**
      * Setter method for the itemCode.
      *
-     * @param itemCode
+     * @param itemCodeParam itemCodeParam
      */
-    public void setItemCode(final String itemCode) {
-        this.itemCode = itemCode;
+    public void setItemCode(final String itemCodeParam) {
+        this.itemCode = itemCodeParam;
     }
 
     /**
      * Getter method for the quantity.
      *
-     * @return
+     * @return quantity quantity
      */
     public int getQuantity() {
         return quantity;
@@ -108,16 +130,16 @@ public class CartItem {
     /**
      * Setter method for the quantity.
      *
-     * @param quantity
+     * @param quantityParam quantityParam
      */
-    public void setQuantity(final int quantity) {
-        this.quantity = quantity;
+    public void setQuantity(final int quantityParam) {
+        this.quantity = quantityParam;
     }
 
     /**
      * Getter method for the salePrice.
      *
-     * @return
+     * @return salePrice salePrice
      */
     public BigDecimal getSalePrice() {
         return salePrice;
@@ -126,16 +148,16 @@ public class CartItem {
     /**
      * Setter method for the salePrice.
      *
-     * @param salePrice
+     * @param salePriceParam salePriceParam
      */
-    public void setSalePrice(final BigDecimal salePrice) {
-        this.salePrice = salePrice;
+    public void setSalePrice(final BigDecimal salePriceParam) {
+        this.salePrice = salePriceParam;
     }
 
     /**
      * Getter method for the listPrice.
      *
-     * @return
+     * @return listPrice listPrice
      */
     public BigDecimal getListPrice() {
         return listPrice;
@@ -144,16 +166,16 @@ public class CartItem {
     /**
      * Setter method for the listPrice.
      *
-     * @param listPrice
+     * @param listPriceParam listPriceParam
      */
-    public void setListPrice(final BigDecimal listPrice) {
-        this.listPrice = listPrice;
+    public void setListPrice(final BigDecimal listPriceParam) {
+        this.listPrice = listPriceParam;
     }
 
     /**
      * Getter method for the productName.
      *
-     * @return
+     * @return productName productName
      */
     public String getProductName() {
         return productName;
@@ -162,25 +184,41 @@ public class CartItem {
     /**
      * Setter method for the productName.
      *
-     * @param productName
+     * @param productNameParam productNameParam
      */
-    public void setProductName(final String productName) {
-        this.productName = productName;
+    public void setProductName(final String productNameParam) {
+        this.productName = productNameParam;
     }
 
+    /**
+     * Getter method for cartItemID.
+     * @return cartItemId cartItemId
+     */
     public long getCartItemId() {
         return cartItemId;
     }
 
-    public void setCartItemId(long cartItemId) {
-        this.cartItemId = cartItemId;
+    /**
+     * Setter method for cartItemId.
+     * @param cartItemIdParam cartItemIdParam
+     */
+    public void setCartItemId(long cartItemIdParam) {
+        this.cartItemId = cartItemIdParam;
     }
 
+    /**
+     * Getter method for cart.
+     * @return cart cart.
+     */
     public Cart getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    /**
+     * Setter method for cart.
+     * @param cartParam cartParam
+     */
+    public void setCart(Cart cartParam) {
+        this.cart = cartParam;
     }
 }

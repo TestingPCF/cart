@@ -1,11 +1,18 @@
 package com.hcl.cloud.cart.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 /**
  * Cart entity class to be persisted in the database.
@@ -15,14 +22,25 @@ import javax.persistence.*;
 @Entity
 @Table(name = "CART")
 public class Cart {
+    /**
+     * Default Constructor.
+     */
     public Cart() {
     }
 
-    public Cart(long id, String userId, BigDecimal subTotal, List<CartItem> cartItems) {
-        this.id = id;
-        this.userId = userId;
-        this.subTotal = subTotal;
-        this.cartItems = cartItems;
+    /**
+     * Parameterized constructor.
+     * @param idParam id.
+     * @param userIdParam userId.
+     * @param subTotalParam subTotal.
+     * @param cartItemsParam cartItems.
+     */
+    public Cart(long idParam, String userIdParam, BigDecimal subTotalParam,
+                List<CartItem> cartItemsParam) {
+        this.id = idParam;
+        this.userId = userIdParam;
+        this.subTotal = subTotalParam;
+        this.cartItems = cartItemsParam;
     }
 
     /**
@@ -34,9 +52,12 @@ public class Cart {
      * Primary key - Id, field for the Cart entity.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cart_sequence")
-    @SequenceGenerator(name = "cart_sequence", sequenceName = "CART_SEQ")
-    @Column(name = "cart_id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "cart_sequence")
+    @SequenceGenerator(name = "cart_sequence",
+            sequenceName = "CART_SEQ")
+    @Column(name = "cart_id", unique = true,
+            nullable = false)
     private long id;
 
     /**
@@ -58,7 +79,7 @@ public class Cart {
 
     /**
      * Getter method for id.
-     * @return id
+     * @return id id.
      */
     public long getId() {
         return id;
@@ -66,15 +87,15 @@ public class Cart {
 
     /**
      * Setter method for id.
-     * @param id
+     * @param idParam idParam.
      */
-    public void setId(final long id) {
-        this.id = id;
+    public void setId(final long idParam) {
+        this.id = idParam;
     }
 
     /**
      * Getter method for userId.
-     * @return
+     * @return userId userId
      */
     public String getUserId() {
         return userId;
@@ -82,26 +103,42 @@ public class Cart {
 
     /**
      * Setter method for userId.
-     * @param userId
+     * @param userIdParam userIdParam
      */
-    public void setUserId(final String userId) {
-        this.userId = userId;
+    public void setUserId(final String userIdParam) {
+        this.userId = userIdParam;
     }
 
+    /**
+     * Getter for subTotal.
+     * @return subTotal subTotal
+     */
     public BigDecimal getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(BigDecimal subTotal) {
-        this.subTotal = subTotal;
+    /**
+     * Setter method for subTotal.
+      * @param subTotalParam subTotalParam
+     */
+    public void setSubTotal(BigDecimal subTotalParam) {
+        this.subTotal = subTotalParam;
     }
 
+    /**
+     * Getter method for cartItems.
+     * @return cartItems cartItems
+     */
     public List<CartItem> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    /**
+     * Setter method for cartItems.
+     * @param cartItemsParam cartItemsParam.
+     */
+    public void setCartItems(List<CartItem> cartItemsParam) {
+        this.cartItems = cartItemsParam;
     }
 
 }

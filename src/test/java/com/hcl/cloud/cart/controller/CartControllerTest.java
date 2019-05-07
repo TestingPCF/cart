@@ -15,7 +15,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 
-import com.hcl.cloud.cart.domain.ShoppingCart;
+
 import com.hcl.cloud.cart.dto.CartDto;
 import com.hcl.cloud.cart.exception.BadRequestException;
 import com.hcl.cloud.cart.exception.CustomException;
@@ -187,7 +187,6 @@ public class CartControllerTest {
      * Test success for updateItemInCart 
      * @throws Exception
      */
-    
     @Test
     public final void testupdateItemInCartFalied() throws Exception {
         CartDto cartDto = Mockito.mock(CartDto.class);
