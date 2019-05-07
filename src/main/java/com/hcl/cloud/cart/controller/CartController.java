@@ -54,7 +54,7 @@ public class CartController {
      * Constant for successRetrieve.
      */
     @Value("${cart.constant.retrieve.success.message}")
-    private String successRetrieve;
+    private String successRetrieve = "";
 
     /**
      * Method to add item in the cart.
