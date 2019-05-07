@@ -10,6 +10,7 @@ import javax.naming.ServiceUnavailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -48,6 +49,11 @@ public class CartServiceImpl implements CartService {
      */
     @Autowired
     private CartRepository cartRepository;
+    /**
+     * Constant for 204.
+     */
+    @Value("${cart.constant.nocontent}")
+    private String noContent;
 
     /**
      * Method to add item in the cart.
@@ -192,9 +198,9 @@ public class CartServiceImpl implements CartService {
     private ProductResponse getProductDetails(final CartDto cartDto, final String authToken)
             throws IOException, BadRequestException, ServiceUnavailableException {
         ProductResponse productResponse = EntityTransformerUtility.getProductResponse(cartDto, authToken);
-        if (productResponse != null && CartConstant.NO_CONTENT.equals(productResponse.getStatusCode())) {
+        if (productResponse != null && noContent.equals(productResponse.getStatusCode())) {
             throw new BadRequestException(productResponse.getStatus());
-        } else if (productResponse != null && !CartConstant.NO_CONTENT.equals(productResponse.getStatusCode())) {
+        } else if (productResponse != null && !noContent.equals(productResponse.getStatusCode())) {
             checkInventory(cartDto, authToken);
         }
         return productResponse;

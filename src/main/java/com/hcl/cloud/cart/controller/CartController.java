@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,12 @@ public class CartController {
     private CartService cartService;
 
     /**
+     * Constant for successRetrieve.
+     */
+    @Value("${cart.constant.retrieve.success.message}")
+    private String successRetrieve;
+
+    /**
      * Method to add item in the cart.
      *
      * @param authToken authToken.
@@ -66,7 +73,7 @@ public class CartController {
             boolean status = cartService.addItemInCart(authToken, cartDto);
             if (status) {
                 messageStatus = new Status(HttpStatus.CREATED,
-                        CartConstant.RETRIEVE_SUCCESS);
+                        successRetrieve);
                 response = new ResponseStatus.Builder<String>(messageStatus)
                         .build();
                 LOG.info("Item added successfully into the cart.");
@@ -148,7 +155,7 @@ public class CartController {
             boolean status = cartService.updateItemInCart(authToken, cartDto);
             if (status) {
                 messageStatus = new Status(HttpStatus.CREATED,
-                        CartConstant.RETRIEVE_SUCCESS);
+                        successRetrieve);
                 response = new ResponseStatus.Builder<String>(messageStatus)
                         .build();
                 LOG.info("Item updated successfully into the cart.");

@@ -1,16 +1,19 @@
 package com.hcl.cloud.cart.constant;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * Constants class.
  *
  * @author baghelp
  */
-public abstract class CartConstant {
+public class CartConstant {
 
     /**
      * NO_CONTENT.
      */
-    public static final String NO_CONTENT = "204";
+    @Value("${cart.constant.nocontent}")
+    public String NO_CONTENT;
 
     /**
      * Constant for success message.

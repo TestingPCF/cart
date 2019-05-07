@@ -362,7 +362,7 @@ public class CartServiceImplTest {
         ProductResponse productResponse = Mockito.mock(ProductResponse.class);
         CartDto cartDto = Mockito.mock(CartDto.class);
         Mockito.when(EntityTransformerUtility.getProductResponse(cartDto, authToken)).thenReturn(productResponse);
-        Mockito.when(productResponse.getStatusCode()).thenReturn(CartConstant.NO_CONTENT);
+        Mockito.when(productResponse.getStatusCode()).thenReturn("204");
         Whitebox.invokeMethod(cartServiceImpl, "getProductDetails", cartDto, authToken);
     }
 
