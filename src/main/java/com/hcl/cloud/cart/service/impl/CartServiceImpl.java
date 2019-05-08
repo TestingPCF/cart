@@ -49,11 +49,6 @@ public class CartServiceImpl implements CartService {
      */
     @Autowired
     private CartRepository cartRepository;
-    /**
-     * Constant for 204.
-     */
-    @Value("${cart.constant.nocontent}")
-    private String noContent;
 
     /**
      * Method to add item in the cart.
@@ -195,12 +190,16 @@ public class CartServiceImpl implements CartService {
      * @throws BadRequestException
      * @throws ServiceUnavailableException
      */
-    private ProductResponse getProductDetails(final CartDto cartDto, final String authToken)
+    private ProductResponse getProductDetails(final CartDto cartDto,
+                                              final String authToken)
             throws IOException, BadRequestException, ServiceUnavailableException {
-        ProductResponse productResponse = EntityTransformerUtility.getProductResponse(cartDto, authToken);
-        if (productResponse != null && noContent.equals(productResponse.getStatusCode())) {
+        ProductResponse productResponse = EntityTransformerUtility
+                .getProductResponse(cartDto, authToken);
+        if (productResponse != null && CartConstant.NO_CONTENT
+                .equals(productResponse.getStatusCode())) {
             throw new BadRequestException(productResponse.getStatus());
-        } else if (productResponse != null && !noContent.equals(productResponse.getStatusCode())) {
+        } else if (productResponse != null && !CartConstant.NO_CONTENT
+                .equals(productResponse.getStatusCode())) {
             checkInventory(cartDto, authToken);
         }
         return productResponse;

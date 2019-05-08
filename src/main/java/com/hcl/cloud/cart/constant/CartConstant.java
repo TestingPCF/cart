@@ -12,8 +12,7 @@ public class CartConstant {
     /**
      * NO_CONTENT.
      */
-    @Value("${cart.constant.nocontent}")
-    public String NO_CONTENT;
+    public static final String NO_CONTENT = "204";
 
     /**
      * Constant for success message.
