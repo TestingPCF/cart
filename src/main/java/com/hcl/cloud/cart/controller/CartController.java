@@ -54,7 +54,18 @@ public class CartController {
      * Constant for successRetrieve.
      */
     @Value("${cart.constant.retrieve.success.message}")
-    private String successRetrieve = "";
+    private String successRetrieve;
+
+    /**
+     * Constant for failure.
+     */
+    @Value("${cart.constant.fail.message}")
+    private String fail;
+    /**
+     * Constant for empty cart.
+     */
+    @Value("${cart.constant.cartempty.message}")
+    private String cartEmpty;
 
     /**
      * Method to add item in the cart.
@@ -79,7 +90,7 @@ public class CartController {
                 LOG.info("Item added successfully into the cart.");
             } else {
                 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
-                        CartConstant.FAIL);
+                        fail);
                 response = new ResponseStatus.Builder<String>(messageStatus)
                         .build();
                 LOG.info("Item cannot be added successfully into the cart.");
@@ -120,7 +131,7 @@ public class CartController {
           response = new ResponseStatus.Builder<Cart>(status).setEntity(cart)
                         .build();
 			} else {
-				Status status = new Status(HttpStatus.OK, CartConstant.CART_EMPTY);
+				Status status = new Status(HttpStatus.OK, cartEmpty);
 		        response = new ResponseStatus.Builder<Cart>(status).build();
 			}
 		} catch (CustomException | IOException ex) {
@@ -161,7 +172,7 @@ public class CartController {
                 LOG.info("Item updated successfully into the cart.");
             } else {
                 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
-                        CartConstant.FAIL);
+                        fail);
                 response = new ResponseStatus.Builder<String>(messageStatus)
                         .build();
                 LOG.info("Item cannot be updated successfully into the cart.");

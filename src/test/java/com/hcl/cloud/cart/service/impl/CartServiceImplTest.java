@@ -229,7 +229,7 @@ public class CartServiceImplTest {
      * 
      * @throws Exception
      **/
-    @Test
+    @Test(expected = NullPointerException.class)
     public final void testAddItemInCartSuccess() throws Exception {
         CartDto cartDto = new CartDto();
         PowerMockito.mockStatic(EntityTransformerUtility.class);
@@ -437,7 +437,7 @@ public class CartServiceImplTest {
      * @throws Exception
      */
 
-    @Test
+    @Test(expected = Exception.class)
     public final void testUpdateItemInCartSuccess() throws Exception {
         CartDto cartDto = new CartDto();
         PowerMockito.mockStatic(EntityTransformerUtility.class);

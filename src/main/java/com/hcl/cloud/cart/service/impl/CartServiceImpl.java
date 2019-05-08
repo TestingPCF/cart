@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService {
      * Constant for 204.
      */
     @Value("${cart.constant.nocontent}")
-    private String noContent = "";
+    private String noContent;
 
     /**
      * Method to add item in the cart.
