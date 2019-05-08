@@ -6,6 +6,7 @@ applications:
     instances: 1
     services:
       - cartDB
+      - cloud-config-server
     routes:
     - route: cart.apps.sandbox.cflab01.in.hclcnlabs.com
       
