@@ -35,7 +35,7 @@ public class RestClient {
      * uaa.
      */
     private static String uaa = "http://uaa.api.sys.sandbox.cflab01"
-            + ".in.hclcnlabs.com";
+            + ".in.hclcnlabs.com/tokenInfo";
     
     /**
      * logger.
