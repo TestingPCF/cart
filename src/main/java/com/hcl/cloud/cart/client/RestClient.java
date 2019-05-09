@@ -22,20 +22,17 @@ public class RestClient {
     /**
      * inventoryUri.
      */
-    private static String inventoryUri = "http://inventory.api.sys.sandbox"
-            + ".cflab01.in.hclcnlabs.com/";
+    private static String inventoryUri = "http://inventory.apps.sandbox.cflab01.in.hclcnlabs.com/";
 
     /**
      * productUri.
      */
-    private static String productUri = "http://products.api.sys.sandbox"
-            + ".cflab01.in.hclcnlabs.com/";
+    private static String productUri = "http://products.apps.sandbox.cflab01.in.hclcnlabs.com/";
 
     /**
      * uaa.
      */
-    private static String uaa = "http://uaa.api.sys.sandbox.cflab01"
-            + ".in.hclcnlabs.com/tokenInfo";
+    private static String uaa = "http://uaa.apps.sandbox.cflab01.in.hclcnlabs.com/tokenInfo";
     
     /**
      * logger.

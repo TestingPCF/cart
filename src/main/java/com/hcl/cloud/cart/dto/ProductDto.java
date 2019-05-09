@@ -37,9 +37,9 @@ public class ProductDto {
  private String category;
 
  /**
-  * isDeleted - isDeleted.
+  * is_deleted - is_deleted.
   */
- private boolean isDeleted;
+ private boolean is_deleted;
 
  /**
   * Getter method for skuCode.
@@ -137,18 +137,19 @@ public class ProductDto {
   this.category = categoryParam;
  }
 
-	/**
-	 * Getter method for isDeleted
-	 * @return isDeleted isDeleted
-	 */
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-	/**
-	 * Setter method for isDeleted
-	 * @param deletedParam deletedParam
-	 */
-	public void setDeleted(boolean deletedParam) {
-		isDeleted = deletedParam;
-	}
+ /**
+  * Getter is_deleted.
+  * @return is_deleted is_deleted
+  */
+ public boolean isIs_deleted() {
+  return is_deleted;
+ }
+
+ /**
+  * Setter is_deleted.
+  * @param is_deleted is_deleted
+  */
+ public void setIs_deleted(boolean is_deleted) {
+  this.is_deleted = is_deleted;
+ }
 }
