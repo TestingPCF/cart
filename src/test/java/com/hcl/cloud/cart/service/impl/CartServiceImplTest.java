@@ -351,20 +351,20 @@ public class CartServiceImplTest {
         Whitebox.invokeMethod(cartServiceImpl, "checkInventory", cartDto, authToken);
     }
 
-//    /**
-//     * This method test for testGetProductDetails BadRequestException.
-//     *
-//     * @throws Exception
-//     */
-//    @Test(expected = BadRequestException.class)
-//    public void testGetProductDetailsBadRequestException() throws Exception {
-//        PowerMockito.mockStatic(EntityTransformerUtility.class);
-//        ProductResponse productResponse = Mockito.mock(ProductResponse.class);
-//        CartDto cartDto = Mockito.mock(CartDto.class);
-//        Mockito.when(EntityTransformerUtility.getProductResponse(cartDto, authToken)).thenReturn(productResponse);
-//        Mockito.when(productResponse.getStatusCode()).thenReturn("204");
-//        Whitebox.invokeMethod(cartServiceImpl, "getProductDetails", cartDto, authToken);
-//    }
+    /**
+     * This method test for testGetProductDetails BadRequestException.
+     *
+     * @throws Exception
+     */
+    @Test(expected = BadRequestException.class)
+    public void testGetProductDetailsBadRequestException() throws Exception {
+        PowerMockito.mockStatic(EntityTransformerUtility.class);
+        ProductResponse productResponse = Mockito.mock(ProductResponse.class);
+        CartDto cartDto = Mockito.mock(CartDto.class);
+        Mockito.when(EntityTransformerUtility.getProductResponse(cartDto, authToken)).thenReturn(productResponse);
+        Mockito.when(productResponse.getStatusCode()).thenReturn("204");
+        Whitebox.invokeMethod(cartServiceImpl, "getProductDetails", cartDto, authToken);
+    }
 
     /**
      * This method test for testSetCartQtyToDto.
