@@ -6,10 +6,9 @@ applications:
     instances: 1
     services:
       - cartDB
-      - cloud-config-server
-      - cloud-service-registry
       - appdynamics
       - log-drain
+      - worker-mq
     routes:
     - route: cart.apps.sandbox.cflab01.in.hclcnlabs.com
       

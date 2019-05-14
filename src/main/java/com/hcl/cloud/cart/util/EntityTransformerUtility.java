@@ -25,7 +25,8 @@ import com.hcl.cloud.cart.dto.TokenInfo;
  */
 public class EntityTransformerUtility {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(EntityTransformerUtility.class);
 	
 	/**
 	 * Convert Java object to Json.

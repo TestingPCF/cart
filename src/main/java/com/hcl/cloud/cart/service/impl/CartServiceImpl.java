@@ -7,17 +7,17 @@ import java.util.List;
 
 import javax.naming.ServiceUnavailableException;
 
+import com.hcl.cloud.cart.config.RabbitmqCartConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.hcl.cloud.cart.constant.CartConstant;
-import com.hcl.cloud.cart.controller.CartController;
 import com.hcl.cloud.cart.domain.Cart;
 import com.hcl.cloud.cart.domain.CartItem;
 import com.hcl.cloud.cart.dto.CartDto;
@@ -41,7 +41,7 @@ public class CartServiceImpl implements CartService {
      * Logger object.
      */
     private static final Logger LOG =
-            LoggerFactory.getLogger(CartController.class);
+            LoggerFactory.getLogger(CartServiceImpl.class);
 
     /**
      * Autowired object of the CartRepository to be able
@@ -49,6 +49,11 @@ public class CartServiceImpl implements CartService {
      */
     @Autowired
     private CartRepository cartRepository;
+    /**
+     * Autowired RabbitTemplate.
+     */
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * Method to add item in the cart.
@@ -63,45 +68,26 @@ public class CartServiceImpl implements CartService {
         boolean notPreset = false;
         validate(cartDto);
         String userId = getUserIdByToken(authToken);
-        Cart cart = getCart(userId);
-        if (cart != null) {
-            setCartQtyToDto(cartDto, cart);
-        }
+        Cart cart = new Cart();
+        cart.setUserId(userId);
 
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUserId(userId);
-        }
         ProductResponse productResponse =
                 getProductDetails(cartDto, authToken);
         setPrices(productResponse, cartDto);
 
-        if (cart != null && (cart.getCartItems() == null
-                || cart.getCartItems().isEmpty())) {
-            CartItem item = transformCartItem(cartDto);
-            item.setCart(cart);
-            cart.getCartItems().add(item);
-            LOG.info("Item adedd successfully in the shopping cart.");
-            notPreset = true;
-        }
-        if (!cart.getCartItems().isEmpty() && !notPreset) {
-            for (CartItem cartItem : cart.getCartItems()) {
-                if (cartItem.getItemCode()
-                        .equalsIgnoreCase(cartDto.getSkuCode())) {
-                    int qty = cartItem.getQuantity() + cartDto.getQuantity();
-                    cartItem.setQuantity(qty);
-                    notPreset = true;
-                }
-            }
-        }
-        if (!notPreset) {
-            CartItem item = transformCartItem(cartDto);
-            item.setCart(cart);
-            cart.getCartItems().add(item);
-        }
-        cart.setSubTotal(calculateSubtotal(cart.getCartItems()));
+        CartItem item = transformCartItem(cartDto);
+        item.setCart(cart);
+        cart.getCartItems().add(item);
+        LOG.info("[CART] event prepared to be queued on messaging server.");
+        notPreset = true;
+
         try {
+            LOG.info("[CART] about to save the event in database.");
             Cart persistCart = cartRepository.save(cart);
+            LOG.info("Publishing event to Queue [cartQueue].");
+            rabbitTemplate.convertAndSend(RabbitmqCartConfig.EXCHANGE_NAME_CART,
+                    RabbitmqCartConfig.ROUTING_KEY_CART,
+                    cart);
             if (persistCart != null) {
                 LOG.info("Item persisted successfully into the database.");
                 return true;
@@ -112,7 +98,6 @@ public class CartServiceImpl implements CartService {
         } catch (RuntimeException ex) {
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
             throw new RuntimeException(ex.getMessage());
-
         }
 
     }
@@ -146,7 +131,6 @@ public class CartServiceImpl implements CartService {
         String userId = getUserIdByToken(authToken);
         Cart cart = getCart(userId);
         return cart;
-
     }
 
     /**
