@@ -2,6 +2,7 @@ package com.hcl.cloud.cart.controller;
 
 import java.io.IOException;
 
+import com.hcl.cloud.cart.domain.Cart;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,7 +96,17 @@ public class CartControllerTest {
     	Mockito.when(cartService.getCartById(AUTH_TOKEN)).thenThrow(RuntimeException.class);
     	Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, cartController.getCart(AUTH_TOKEN).getStatusCode());
     }
-    
+
+    /**
+     * Test for testGetCartWhenInternalServerError for Exception.
+     * @throws Exception
+     */
+    @Test
+    public final void testGetCartSuccess() throws Exception {
+        Cart cart = Mockito.mock(Cart.class);
+        Mockito.when(cartService.getCartById(AUTH_TOKEN)).thenReturn(cart);
+        cartController.getCart(AUTH_TOKEN);
+    }
     
     /**
      * Test Success for testAddItemInCartSuccess.
