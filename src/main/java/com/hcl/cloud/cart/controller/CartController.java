@@ -69,31 +69,15 @@ public class CartController {
         Status messageStatus;
         try {
             boolean status = cartService.addItemInCart(authToken, cartDto);
-            if (status) {
-                messageStatus = new Status(HttpStatus.CREATED,
-                        successRetrieve);
-                response = new ResponseStatus.Builder<String>(messageStatus)
-                        .build();
-                LOG.info("Item added successfully into the cart.");
-            } else {
-                messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
-                        CartConstant.FAIL);
-                response = new ResponseStatus.Builder<String>(messageStatus)
-                        .build();
-                LOG.info("Item cannot be added successfully into the cart.");
-            }
-
+            response = prepareOrderCreateResponse(status);
         } catch (BadRequestException ex) {
-            messageStatus = new Status(HttpStatus.BAD_REQUEST, ex.getMessage());
-            response = new ResponseStatus.Builder<String>(messageStatus).build();
+            response = prepareResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
         } catch (CustomException | ServiceUnavailableException ex) {
-            messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
-            response = new ResponseStatus.Builder<String>(messageStatus).build();
+            response = prepareResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
             LOG.error(UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
         }   catch (Exception ex) {
-            messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-            response = new ResponseStatus.Builder<String>(messageStatus).build();
+            response = prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
         }
         return new ResponseEntity<ResponseStatus<String>>(response, response.getStatus().status());
@@ -102,7 +86,7 @@ public class CartController {
     /**
      * Method to get cart details.
      * @param authToken
-     * @return
+     * @return ResponseStatus<String> ResponseStatus<String>
      */
     @GetMapping
     public ResponseEntity<ResponseStatus<?>> getCart(
@@ -139,7 +123,7 @@ public class CartController {
      * Update item into cart
      * @param authToken
      * @param cartDto
-     * @return
+     * @return ResponseStatus<String> ResponseStatus<String>
      */
     
     @PutMapping
@@ -179,4 +163,34 @@ public class CartController {
             return new ResponseEntity<ResponseStatus<String>>(response, response.getStatus().status());
     }
 
+    /**
+     * This method sets the parameter response as per the status.
+     * @param status status
+     * @return  response response
+     */
+    private ResponseStatus<String> prepareOrderCreateResponse(boolean status) {
+        ResponseStatus<String> response = null;
+        if (status) {
+            response = prepareResponse(HttpStatus.CREATED, successRetrieve);
+            LOG.info("Item added successfully into the cart.");
+        } else {
+            response = prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, CartConstant.FAIL);
+            LOG.info("Item cannot be added successfully into the cart.");
+        }
+        return response;
+    }
+
+    /**
+     * This method sets the parameter response as per the message and httpStatus.
+     * @param httpStatus httpStatus
+     * @param message message
+     * @return ResponseStatus<String> ResponseStatus<String>
+     */
+    private ResponseStatus<String> prepareResponse(HttpStatus httpStatus, String message) {
+        Status messageStatus;
+        messageStatus = new Status(httpStatus,
+                message);
+        return new ResponseStatus.Builder<String>(messageStatus)
+                .build();
+    }
 }
