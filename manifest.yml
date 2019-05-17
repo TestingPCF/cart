@@ -9,6 +9,7 @@ applications:
       - appdynamics
       - log-drain
       - worker-mq
+      - cloud-config-server
     routes:
     - route: cart.apps.sandbox.cflab01.in.hclcnlabs.com
       

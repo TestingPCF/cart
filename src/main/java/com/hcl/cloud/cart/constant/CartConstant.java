@@ -17,7 +17,7 @@ public class CartConstant {
     /**
      * Constant for success message.
      */
-    public static final String RETRIEVE_SUCCESS = "success";
+    public static final String RETRIEVE_SUCCESS = "retrieved successfully";
 
     /**
      * Constant for updated message.
@@ -58,4 +58,9 @@ public class CartConstant {
      * TOKEN.
      */
     public static final String TOKEN = "token";
+
+    /**
+     * UNAUTHORIZED_ERROR_MESSAGE.
+     */
+    public static final String UNAUTHORIZED_ERROR_MESSAGE = "UNAUTHORIZED User or Invalid token. ";
 }
