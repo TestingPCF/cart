@@ -22,7 +22,6 @@ public class Status {
   * Default Constructor.
   */
  public Status() {
-  // TODO Auto-generated method stub
  }
 
  /**

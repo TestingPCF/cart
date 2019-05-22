@@ -121,7 +121,6 @@ public class CartServiceImplTest {
 
     /**
      * This Method is called before the test is executed.
-     * 
      * @throws Exception
      **/
 
@@ -132,12 +131,7 @@ public class CartServiceImplTest {
     }
 
     /**
-     * Success Test for getCartById Method.
-     **/
-
-    /**
      * Success test method for GetCartById.
-     * 
      * @throws IOException
      * @throws CustomException
      */
@@ -154,7 +148,6 @@ public class CartServiceImplTest {
 
     /**
      * Success Test for testGetCartByIdWhenCartIsNull Method.
-     * 
      * @throws IOException
      * @throws CustomException
      **/
@@ -171,7 +164,6 @@ public class CartServiceImplTest {
     /**
      * Success Test for testGetCartByIdWhenCartIsNull Method for
      * HttpClientErrorException.
-     * 
      * @throws IOException
      * @throws HttpClientErrorException
      **/
@@ -185,7 +177,6 @@ public class CartServiceImplTest {
 
     /**
      * Success Test for testGetCartByIdWhenCartIsNull Method.
-     * 
      * @throws IOException
      * @throws CustomException
      **/
@@ -201,7 +192,6 @@ public class CartServiceImplTest {
 
     /**
      * This method test for Validate when SKU is null in request.
-     * 
      * @throws Exception
      */
     @Test(expected = BadRequestException.class)
@@ -214,7 +204,6 @@ public class CartServiceImplTest {
 
     /**
      * This method test for Validate when SKU is null in request.
-     * 
      * @throws Exception
      */
     @Test(expected = BadRequestException.class)
@@ -227,7 +216,6 @@ public class CartServiceImplTest {
 
     /**
      * This method test for testcheckInventoryBadRequestException.
-     * 
      * @throws Exception
      */
     @Test(expected = BadRequestException.class)
@@ -245,7 +233,6 @@ public class CartServiceImplTest {
 
     /**
      * This method test for testcheckInventoryHttpClientErrorException.
-     * 
      * @throws Exception
      */
     @Test(expected = BadRequestException.class)
@@ -262,7 +249,6 @@ public class CartServiceImplTest {
 
     /**
      * This method test for testcheckInventoryHttpClientErrorException.
-     * 
      * @throws Exception
      */
     @Test(expected = ServiceUnavailableException.class)
@@ -278,7 +264,6 @@ public class CartServiceImplTest {
 
     /**
      * This method test for testGetProductDetails BadRequestException.
-     *
      * @throws Exception
      */
     @Test(expected = BadRequestException.class)
@@ -310,58 +295,9 @@ public class CartServiceImplTest {
     }
 
     /**
-     * Failure Test for testaddItemInCartSuccess Method.
-     * 
-     * @throws Exception
-     **/
-//    @Test(expected = RuntimeException.class)
-//    public final void testAddItemInCartFailure() throws Exception {
-//        CartDto cartDto = new CartDto();
-//        PowerMockito.mockStatic(EntityTransformerUtility.class);
-//        PowerMockito.mockStatic(RestClient.class);
-//        TokenInfo tokenInfo = new TokenInfo();
-//
-//        PowerMockito.mockStatic(EntityTransformerUtility.class);
-//        Mockito.when(EntityTransformerUtility.getTokenInfo(authToken)).thenReturn(tokenInfo);
-//        tokenInfo.setUserId(userId);
-//
-//        cartDto.setQuantity(1);
-//        cartDto.setSkuCode(SKU_CODE);
-//        Cart cart = new Cart();
-////        PowerMockito.when(cartRepository.findByUserId(userId)).thenReturn(cart);
-//
-//        ResponseEntity response = Mockito.mock(ResponseEntity.class);
-//
-//        ProductResponse productResponse = new ProductResponse();
-//        InventoryResponse inventoryResponse = new InventoryResponse();
-//        PowerMockito.when(EntityTransformerUtility.getProductResponse(cartDto, authToken)).thenReturn(productResponse);
-//        PowerMockito.when(EntityTransformerUtility.getInventoryResponse(cartDto, authToken))
-//                .thenReturn(inventoryResponse);
-//        inventoryResponse.setInStock(true);
-//        inventoryResponse.setActiveStatus(true);
-//        inventoryResponse.setQuantity(4);
-//        CartItem cartItem = Mockito.mock(CartItem.class);
-//        Mockito.when(cartItem.getItemCode()).thenReturn(SKU_CODE);
-//        cartDto.setSkuCode(SKU_CODE);
-//        List<CartItem> cartItems = new ArrayList<>();
-//        Mockito.when(cartItem.getItemCode()).thenReturn(SKU_CODE);
-//        Mockito.when(cartItem.getListPrice()).thenReturn(LIST_PRICE);
-//        Mockito.when(cartItem.getSalePrice()).thenReturn(SALE_PRICE);
-//        Mockito.when(cartItem.getQuantity()).thenReturn(quantity);
-//        cartItems.add(cartItem);
-//
-////        Mockito.when(cart.getCartItems()).thenReturn(cartItems);
-//        PowerMockito.when(cartRepository.save(cart)).thenThrow(RuntimeException.class);
-////        Mockito.doThrow(RuntimeException.class).when(cartRepository).save(cart);
-//        cartServiceImpl.addItemInCart(authToken, cartDto);
-//    }
-
-    /**
      * Updateitem in cart success.
-     * 
      * @throws Exception
      */
-
     @Test
     public final void testUpdateItemInCartSuccess() throws Exception {
         CartDto cartDto = new CartDto();
@@ -406,10 +342,8 @@ public class CartServiceImplTest {
 
     /**
      * Update item in cart failure.
-     * 
      * @throws Exception
      */
-
     @Test(expected = RuntimeException.class)
     public final void testUpdateItemInCartFailure() throws Exception {
         CartDto cartDto = new CartDto();
@@ -449,43 +383,8 @@ public class CartServiceImplTest {
         cartServiceImpl.updateItemInCart(authToken, cartDto);
     }
 
-    /**
+     /**
      * Success Test for testaddItemInCartSuccess Method.
-     *
-     * @throws Exception
-     **/
-   // @Test
-    public final void testaddItemInCartEmptyCartSuccess() throws Exception {
-        CartDto cartDto = new CartDto();
-        List<ProductDto> productList = new ArrayList<>();
-
-        PowerMockito.mockStatic(EntityTransformerUtility.class);
-        PowerMockito.mockStatic(RestClient.class);
-        TokenInfo tokenInfo = new TokenInfo();
-        cartDto.setQuantity(1);
-        cartDto.setSkuCode(SKU_CODE);
-
-        ResponseEntity response = Mockito.mock(ResponseEntity.class);
-        ProductDto product = new ProductDto();
-        productList.add(product);
-        ProductResponse productResponse = new ProductResponse();
-        PowerMockito.when(EntityTransformerUtility.getProductResponse(cartDto, authToken)).thenReturn(productResponse);
-        productResponse.setProductList(productList);
-        productResponse.setStatusCode(SKU_CODE);
-        CartItem cartItem = Mockito.mock(CartItem.class);
-        Mockito.when(cartItem.getItemCode()).thenReturn(SKU_CODE);
-        cartDto.setSkuCode(SKU_CODE);
-
-        PowerMockito.mockStatic(EntityTransformerUtility.class);
-        Mockito.when(EntityTransformerUtility.getTokenInfo(authToken)).thenReturn(tokenInfo);
-
-        tokenInfo.setUserId(userId);
-        cartServiceImpl.addItemInCart(authToken, cartDto);
-    }
-
-    /**
-     * Success Test for testaddItemInCartSuccess Method.
-     *
      * @throws Exception
      **/
     @Test

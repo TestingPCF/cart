@@ -37,24 +37,33 @@ public class RabbitmqCartConfig {
     public static final String QUEUE_SPECIFIC_NAME_CART = "cartQueue";
 
     /**
-     * mqExchange method for TopicExchange.
-     * @return
+     * mqCartExchange method for TopicExchange.
+     * @return TopicExchange object.
      */
     @Bean
     public TopicExchange mqCartExchange() {
         return new TopicExchange(EXCHANGE_NAME_CART);
     }
-
+    /**
+     * appCartQueueSpecific method for TopicExchange.
+     * @return Queue object.
+     */
     @Bean
     public Queue appCartQueueSpecific() {
         return new Queue(QUEUE_SPECIFIC_NAME_CART);
     }
-
+    /**
+     * declareBindingSpecificCart method.
+     * @return Binding object.
+     */
     @Bean
     public Binding declareBindingSpecificCart() {
         return BindingBuilder.bind(appCartQueueSpecific()).to(mqCartExchange()).with(ROUTING_KEY_CART);
     }
-
+    /**
+     * rabbitTemplateCart method.
+     * @return RabbitTemplate object.
+     */
     @Bean
     public RabbitTemplate rabbitTemplateCart(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -63,7 +72,10 @@ public class RabbitmqCartConfig {
 
         return rabbitTemplate;
     }
-
+    /**
+     * producerJackson2MessageConverter method - converter method.
+     * @return Jackson2JsonMessageConverter object.
+     */
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter(ObjectMapper objectMapper) {
         DefaultClassMapper classMapper = new DefaultClassMapper();
@@ -73,6 +85,9 @@ public class RabbitmqCartConfig {
         converter.setClassMapper(classMapper);
         return converter;
     }
+    /**
+     * Inner class ImplicitJsonMessageConverter.
+     */
     public static class ImplicitJsonMessageConverter extends Jackson2JsonMessageConverter {
         public ImplicitJsonMessageConverter(ObjectMapper jsonObjectMapper) {
             super(jsonObjectMapper, "*");

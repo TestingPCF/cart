@@ -129,7 +129,6 @@ public class CartController {
      * @param cartDto
      * @return ResponseStatus<String> ResponseStatus<String>
      */
-    
     @PutMapping
     public ResponseEntity<ResponseStatus<String>> updateItemInCart(
             @RequestHeader(value = "accessToken", required = true)

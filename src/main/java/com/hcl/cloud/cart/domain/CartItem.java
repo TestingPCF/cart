@@ -28,7 +28,7 @@ import javax.persistence.FetchType;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartItem {
     /**
-     * DEfautl constructor.
+     * Default constructor.
      */
     public CartItem() {
     }
