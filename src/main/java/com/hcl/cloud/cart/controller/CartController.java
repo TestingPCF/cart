@@ -57,6 +57,12 @@ public class CartController {
      */
     @Value("${cart.constant.create.success.message}")
     private String successCreate;
+    
+    
+    @Value("${cart.constant.updateItem.error.message}")
+    private String updateItemFailure;
+    
+    
 
     /**
      * Method to add item in the cart.
@@ -75,7 +81,7 @@ public class CartController {
             boolean status = cartService.addItemInCart(authToken, cartDto);
             response = prepareOrderCreateResponse(status);
         } catch (BadRequestException ex) {
-            response = prepareResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+            response = prepareResponse(HttpStatus.BAD_REQUEST, ex.getMessage());           
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
         } catch (CustomException | ServiceUnavailableException ex) {
             response = prepareResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
@@ -145,7 +151,7 @@ public class CartController {
                 LOG.info("Item updated successfully into the cart.");
             } else {
                 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
-                        CartConstant.FAIL);
+                        updateItemFailure);
                 response = new ResponseStatus.Builder<String>(messageStatus)
                         .build();
                 LOG.info("Item cannot be updated successfully into the cart.");
