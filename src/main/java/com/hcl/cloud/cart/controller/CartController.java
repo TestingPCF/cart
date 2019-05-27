@@ -57,6 +57,9 @@ public class CartController {
      */
     @Value("${cart.constant.create.success.message}")
     private String successCreate;
+    
+    @Value("${cart.constant.empty.message}")
+    private String cartEmpty;
 
     /**
      * Method to add item in the cart.
@@ -105,7 +108,7 @@ public class CartController {
           response = new ResponseStatus.Builder<Cart>(status).setEntity(cart)
                         .build();
 			} else {
-				Status status = new Status(HttpStatus.OK, CartConstant.CART_EMPTY);
+				Status status = new Status(HttpStatus.OK, cartEmpty);
 		        response = new ResponseStatus.Builder<Cart>(status).build();
 			}
 		} catch (CustomException | IOException ex) {
