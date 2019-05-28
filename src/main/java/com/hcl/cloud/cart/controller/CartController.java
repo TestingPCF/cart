@@ -58,8 +58,11 @@ public class CartController {
     @Value("${cart.constant.create.success.message}")
     private String successCreate;
     
-    @Value("${cart.constant.empty.message}")
-    private String cartEmpty;
+    @Value("${cart.constant.fail.message}")
+    private String cartFail;
+    
+    @Value("${cart.constant.unauthorized.error.message}")
+    private String unauthorizedErrorMessage;
 
     /**
      * Method to add item in the cart.
@@ -82,7 +85,7 @@ public class CartController {
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
         } catch (CustomException | ServiceUnavailableException ex) {
             response = prepareResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
-            LOG.error(CartConstant.UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
+            LOG.error(unauthorizedErrorMessage, ex.getMessage());
         }   catch (Exception ex) {
             response = prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
             LOG.error("Item cannot be added into the cart. ", ex.getMessage());
@@ -108,13 +111,13 @@ public class CartController {
           response = new ResponseStatus.Builder<Cart>(status).setEntity(cart)
                         .build();
 			} else {
-				Status status = new Status(HttpStatus.OK, cartEmpty);
+				Status status = new Status(HttpStatus.OK, CartConstant.CART_EMPTY);
 		        response = new ResponseStatus.Builder<Cart>(status).build();
 			}
 		} catch (CustomException | IOException ex) {
 			 messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
             response = new ResponseStatus.Builder<Cart>(messageStatus).build();
-            LOG.error(CartConstant.UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
+            LOG.error(unauthorizedErrorMessage, ex.getMessage());
 		} catch(Exception ex) {
     messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
                      ex.getMessage());
@@ -148,7 +151,7 @@ public class CartController {
                 LOG.info("Item updated successfully into the cart.");
             } else {
                 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR,
-                        CartConstant.FAIL);
+                		cartFail);
                 response = new ResponseStatus.Builder<String>(messageStatus)
                         .build();
                 LOG.info("Item cannot be updated successfully into the cart.");
@@ -160,7 +163,7 @@ public class CartController {
             } catch (CustomException | ServiceUnavailableException ex) {
                 messageStatus = new Status(HttpStatus.UNAUTHORIZED, ex.getMessage());
                 response = new ResponseStatus.Builder<String>(messageStatus).build();
-                LOG.error(CartConstant.UNAUTHORIZED_ERROR_MESSAGE, ex.getMessage());
+                LOG.error(unauthorizedErrorMessage, ex.getMessage());
             }   catch (Exception ex) {
                 messageStatus = new Status(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
                 response = new ResponseStatus.Builder<String>(messageStatus).build();
@@ -180,7 +183,7 @@ public class CartController {
             response = prepareResponse(HttpStatus.CREATED, successCreate);
             LOG.info(successCreate);
         } else {
-            response = prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, CartConstant.FAIL);
+            response = prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, cartFail);
             LOG.info("Item cannot be added successfully into the cart.");
         }
         return response;
